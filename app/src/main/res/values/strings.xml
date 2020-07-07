@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Simple Weather</string>
+    <string name="network_error">Network Error</string>
+    <string name="unknown_error">Unknow Error</string>
+    <string name="date_time"><![CDATA[Date & Time]]></string>
+    <string name="sunset">Sunset</string>
+    <string name="timezone">Timezone</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+    <string name="done">Done</string>
+    <string name="countryCode">Country Code</string>
+</resources>
