@@ -28,7 +28,7 @@ suspend fun <T> safeApiCall(dispatcher: CoroutineDispatcher, apiCall: suspend ()
         } else {
             if (response.errorBody() != null) {
                 try {
-                    Gson().fromJson(response.errorBody()?.string(), ErrorResponse::class.java).let {
+                    Gson().fromJson(response.errorBody()?.toString(), ErrorResponse::class.java).let {
                         ResultWrapper.Error(it)
                     }
                 } catch (t: Throwable) {
