@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Pin the domain www.datatheorem.com -->
+    <!-- Official Android N API -->
+    <domain-config>
+        <domain>www.datatheorem.com</domain>
+        <pin-set>
+            <pin digest="SHA-256">k3XnEYQCK79AtL9GYnT/nyhsabas03V+bhRQYHQbpXU=</pin>
+            <pin digest="SHA-256">2kOi4HdYYsvTR1sTIR7RHwlf2SescTrpza9ZrWy7poQ=</pin>
+        </pin-set>
+        <!-- TrustKit Android API -->
+        <!-- Do not enforce pinning validation -->
+        <trustkit-config enforcePinning="false">
+            <!-- Add a reporting URL for pin validation reports -->
+            <report-uri>http://report.datatheorem.com/log_report</report-uri>
+        </trustkit-config>
+    </domain-config>
+<!--    <debug-overrides>-->
+<!--        <trust-anchors>-->
+<!--            &lt;!&ndash; For debugging purposes, add a debug CA and override pins &ndash;&gt;-->
+<!--            <certificates overridePins="true" src="@raw/debugca" />-->
+<!--        </trust-anchors>-->
+<!--    </debug-overrides>-->
+</network-security-config>

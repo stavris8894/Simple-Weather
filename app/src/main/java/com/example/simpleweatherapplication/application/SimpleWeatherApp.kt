@@ -2,8 +2,8 @@ package com.example.simpleweatherapplication.application
 
 import android.app.Application
 import androidx.annotation.StringRes
+import com.datatheorem.android.trustkit.TrustKit
 import com.example.simpleweatherapplication.BuildConfig
-import com.example.simpleweatherapplication.R
 import com.example.simpleweatherapplication.di.networkModule
 import com.example.simpleweatherapplication.di.repositoryModule
 import com.example.simpleweatherapplication.di.viewModelModule
@@ -34,6 +34,7 @@ class SimpleWeatherApp : Application() {
             androidContext(this@SimpleWeatherApp)
             modules(listOf(repositoryModule, viewModelModule, networkModule))
         }
+        TrustKit.initializeWithNetworkSecurityConfiguration(this@SimpleWeatherApp)
 
     }
 }

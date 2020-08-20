@@ -36,10 +36,9 @@ fun FragmentActivity.showToast(
 ) {
     val makeText = Toast.makeText(this, message, Toast.LENGTH_SHORT)
     val view = makeText.view
-    view.background.colorFilter =
+    view?.background?.colorFilter =
         PorterDuffColorFilter(this.getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN)
-    view.findViewById<TextView>(android.R.id.message)
-        .setTextColor(this.getColor(R.color.white))
+    view?.findViewById<TextView>(android.R.id.message)?.setTextColor(this.getColor(R.color.white))
     makeText.show()
 }
 
@@ -48,9 +47,8 @@ fun Fragment.showToast(
 ) {
     val makeText = Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT)
     val view = makeText.view
-    view.background.colorFilter =
+    view?.background?.colorFilter =
         PorterDuffColorFilter(requireContext().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN)
-    view.findViewById<TextView>(android.R.id.message)
-        .setTextColor(requireContext().getColor(R.color.white))
+    view?.findViewById<TextView>(android.R.id.message)?.setTextColor(requireContext().getColor(R.color.white))
     makeText.show()
 }
