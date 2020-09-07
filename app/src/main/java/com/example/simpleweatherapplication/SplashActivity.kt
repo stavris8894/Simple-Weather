@@ -2,6 +2,8 @@ package com.example.simpleweatherapplication
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.simpleweatherapplication.utils.BiometricDetails
+import com.example.simpleweatherapplication.utils.BiometricHelper
 import com.example.simpleweatherapplication.weather.ui.WeatherActivity
 
 class SplashActivity : AppCompatActivity() {
@@ -12,4 +14,6 @@ class SplashActivity : AppCompatActivity() {
         WeatherActivity.startActivity(this)
         finish()
     }
+
+
 }
