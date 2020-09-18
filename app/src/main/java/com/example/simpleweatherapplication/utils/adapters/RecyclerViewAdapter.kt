@@ -1,6 +1,9 @@
 package com.example.simpleweatherapplication.utils.adapters
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.simpleweatherapplication.ui_data.ButtonViewData
 import com.example.simpleweatherapplication.ui_data.HeaderWeatherDetailsViewData
@@ -9,35 +12,40 @@ import com.example.simpleweatherapplication.ui_data.WeatherDetailsViewData
 import com.example.simpleweatherapplication.utils.RecyclerViewItem
 import com.example.simpleweatherapplication.utils.viewholders.*
 
-class RecyclerViewAdapter(
-    private var list: List<RecyclerViewItem>
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecyclerViewAdapter : ListAdapter<RecyclerViewItem, RecyclerView.ViewHolder>(TASKS_COMPARATOR) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ViewHolderGenerator.createViewHolder(parent, viewType)
     }
 
-    override fun getItemCount(): Int {
-        return list.size
-    }
-
     override fun getItemViewType(position: Int): Int {
-        return list[position].itemType.viewType
+        return getItem(position).itemType.viewType
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is CardViewHolder -> {
-                holder.bindData(list[position] as WeatherCardViewData)
+                holder.bindData(getItem(position) as WeatherCardViewData)
             }
             is DetailsViewHolder -> {
-                holder.bindData(list[position] as WeatherDetailsViewData)
+                holder.bindData(getItem(position) as WeatherDetailsViewData)
             }
             is DetailsButtonViewHolder -> {
-                holder.bindData(list[position] as ButtonViewData)
+                holder.bindData(getItem(position) as ButtonViewData)
             }
             is HeaderDetailsViewHolder -> {
-                holder.bindData(list[position] as HeaderWeatherDetailsViewData)
+                holder.bindData(getItem(position) as HeaderWeatherDetailsViewData)
             }
+        }
+    }
+
+    companion object {
+        private val TASKS_COMPARATOR = object : DiffUtil.ItemCallback<RecyclerViewItem>() {
+            override fun areItemsTheSame(oldItem: RecyclerViewItem, newItem: RecyclerViewItem): Boolean =
+                oldItem.itemType == newItem.itemType
+
+            @SuppressLint("DiffUtilEquals")
+            override fun areContentsTheSame(oldItem: RecyclerViewItem, newItem: RecyclerViewItem): Boolean =
+                oldItem == newItem
         }
     }
 }

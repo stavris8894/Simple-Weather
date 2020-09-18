@@ -17,7 +17,7 @@ class WeatherFragment : Fragment(R.layout.main_page_fragment) {
 
     private val binding by viewBinding(MainPageFragmentBinding::bind)
 
-    private lateinit var recycleViewAdapter: RecyclerViewAdapter
+    private val recycleViewAdapter = RecyclerViewAdapter()
 
     private val weatherViewModel: WeatherViewModel by sharedViewModel()
 
@@ -25,20 +25,20 @@ class WeatherFragment : Fragment(R.layout.main_page_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        configureObservers()
         configureElements()
+        configureObservers()
     }
 
     private fun configureElements() {
         binding.swipeRefreshLayout.setOnRefreshListener {
             weatherViewModel.refreshData()
         }
+        binding.recyclerView.adapter = recycleViewAdapter
     }
 
     private fun configureObservers() {
         weatherViewModel.recycleViewItems.observe(viewLifecycleOwner, EventObserver {
-            recycleViewAdapter = RecyclerViewAdapter(it)
-            binding.recyclerView.adapter = recycleViewAdapter
+            recycleViewAdapter.submitList(it)
         })
 
         weatherViewModel.showProgressBar.observe(viewLifecycleOwner, EventObserver {
