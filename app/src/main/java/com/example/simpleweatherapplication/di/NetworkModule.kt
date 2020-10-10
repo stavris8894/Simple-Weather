@@ -1,6 +1,5 @@
 package com.example.simpleweatherapplication.di
 
-import android.os.Build.HOST
 import com.datatheorem.android.trustkit.TrustKit
 import com.example.simpleweatherapplication.BuildConfig
 import com.example.simpleweatherapplication.network.ApiWebServices

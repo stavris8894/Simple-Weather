@@ -2,9 +2,10 @@ package com.example.simpleweatherapplication.utils
 
 import android.util.Log
 import android.widget.Toast
-import androidx.biometric.BiometricConstants
 import androidx.biometric.BiometricManager.Authenticators
 import androidx.biometric.BiometricPrompt
+import androidx.biometric.BiometricPrompt.ERROR_LOCKOUT
+import androidx.biometric.BiometricPrompt.ERROR_USER_CANCELED
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 
@@ -17,7 +18,7 @@ class BiometricHelper {
                 Log.d(TAG, "onAuthenticationError errorCode: $errorCode with errString: $errString")
                 super.onAuthenticationError(errorCode, errString)
                 when (errorCode) {
-                    BiometricConstants.ERROR_USER_CANCELED, BiometricConstants.ERROR_LOCKOUT -> {
+                    ERROR_USER_CANCELED, ERROR_LOCKOUT -> {
                         Toast.makeText(fragmentActivity, biometricDetails.error, Toast.LENGTH_SHORT).show()
                     }
                     else -> {
@@ -42,7 +43,7 @@ class BiometricHelper {
             .setTitle(biometricDetails.title)
             .setSubtitle(biometricDetails.details)
             .setNegativeButtonText("Cancel")
-            .setAllowedAuthenticators(Authenticators.BIOMETRIC_STRONG )
+            .setAllowedAuthenticators(Authenticators.BIOMETRIC_STRONG)
             .build()
         biometricPrompt.authenticate(promptInfo)
     }
