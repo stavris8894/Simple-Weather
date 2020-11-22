@@ -5,9 +5,9 @@ import androidx.lifecycle.*
 import com.example.simpleweatherapplication.R
 import com.example.simpleweatherapplication.application.SimpleWeatherApp
 import com.example.simpleweatherapplication.models.Data
-import com.example.simpleweatherapplication.models.ResultWrapper
 import com.example.simpleweatherapplication.ui_data.ButtonViewData
 import com.example.simpleweatherapplication.ui_data.HeaderWeatherDetailsViewData
+import com.example.simpleweatherapplication.utils.models.ResultWrapper
 import com.example.simpleweatherapplication.ui_data.WeatherCardViewData
 import com.example.simpleweatherapplication.ui_data.WeatherDetailsViewData
 import com.example.simpleweatherapplication.utils.Event
@@ -16,6 +16,7 @@ import com.example.simpleweatherapplication.utils.extensions.toCelsius
 import com.example.simpleweatherapplication.weather.repositories.WeatherDatabaseRepository
 import com.example.simpleweatherapplication.weather.repositories.WeatherRemoteRepository
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class WeatherViewModel(
@@ -52,7 +53,7 @@ class WeatherViewModel(
                     _showErrorMessage.value = Event(SimpleWeatherApp.getString(R.string.network_error)).also { _showProgressBar.value = Event(false) }
                 }
                 is ResultWrapper.Error -> {
-                    _showErrorMessage.value = Event(weatherData.errorResponse?.getErrorMessage!!).also { _showProgressBar.value = Event(false) }
+                    _showErrorMessage.value = Event(weatherData.errorResponse.getErrorMessage).also { _showProgressBar.value = Event(false) }
                 }
             }
         }
@@ -67,14 +68,21 @@ class WeatherViewModel(
     }
 
     fun refreshData() {
-        //TODO::Need to add a refresh Functionality
         _showProgressBar.value = Event(false)
+        getDataFromDao()
     }
 
     private fun convertDataToUIModel(list: List<Data>): ArrayList<RecyclerViewItem> {
         val uiData: ArrayList<RecyclerViewItem> = arrayListOf()
         list.forEach {
-            uiData.add(WeatherCardViewData(it.cityName, it.countryCode, it.temp.toString(), it.weather.icon) {
+            uiData.add(WeatherCardViewData(it.cityName, it.cityName, it.countryCode, it.temp.toString(), it.weather.icon, listener = ::onClick))
+        }
+        return uiData
+    }
+
+    private fun onClick(id: String) {
+        viewModelScope.launch {
+            weatherDatabaseRepository.getByCityName(id).collectLatest {
                 val detailsData: ArrayList<RecyclerViewItem> = arrayListOf()
                 detailsData.add(HeaderWeatherDetailsViewData(it.cityName, it.temp.toString().toCelsius()))
                 detailsData.add(WeatherDetailsViewData(SimpleWeatherApp.getString(R.string.date_time), it.lastObservationTimeString))
@@ -87,9 +95,8 @@ class WeatherViewModel(
                     _dismissCityDetails.value = Event(true)
                 })
                 _showCityDetails.value = Event(detailsData)
-            })
+            }
         }
-        return uiData
     }
 
     init {

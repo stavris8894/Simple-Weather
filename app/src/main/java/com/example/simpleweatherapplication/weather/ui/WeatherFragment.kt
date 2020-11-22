@@ -38,7 +38,7 @@ class WeatherFragment : Fragment(R.layout.main_page_fragment) {
 
     private fun configureObservers() {
         weatherViewModel.recycleViewItems.observe(viewLifecycleOwner, EventObserver {
-            recycleViewAdapter.submitList(it)
+            recycleViewAdapter.submitList(it.toList())
         })
 
         weatherViewModel.showProgressBar.observe(viewLifecycleOwner, EventObserver {

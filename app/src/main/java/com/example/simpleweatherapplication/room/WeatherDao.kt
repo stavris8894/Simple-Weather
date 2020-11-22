@@ -23,6 +23,6 @@ interface WeatherDao {
     suspend fun deleteAll()
 
     @Query("SELECT * FROM data WHERE cityName=:city")
-    fun getByCityName(city: String): Flow<List<Data>>
+    fun getByCityName(city: String): Flow<Data>
 
 }

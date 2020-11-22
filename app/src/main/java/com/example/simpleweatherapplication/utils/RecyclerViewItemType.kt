@@ -7,7 +7,7 @@ import com.example.simpleweatherapplication.utils.viewholders.DetailsViewHolder
 import com.example.simpleweatherapplication.utils.viewholders.HeaderDetailsViewHolder
 import kotlin.reflect.KClass
 
-enum class RecyclerViewItemType(var viewType: Int, val clazz: KClass<out RecyclerView.ViewHolder>? = null) {
+enum class RecyclerViewItemType(var viewType: Int, val clazz: KClass<out RecyclerView.ViewHolder>) {
     CARD_VIEWS(1, CardViewHolder::class),
     DETAILS_VIEW(2, DetailsViewHolder::class),
     BUTTON_VIEW(3, DetailsButtonViewHolder::class),
@@ -17,6 +17,6 @@ enum class RecyclerViewItemType(var viewType: Int, val clazz: KClass<out Recycle
 
         private val map = values().associateBy { it.viewType }
 
-        fun byViewType(viewType: Int) = map[viewType]
+        fun byViewType(viewType: Int) = map[viewType] ?: error("ViewHolder not found!")
     }
 }

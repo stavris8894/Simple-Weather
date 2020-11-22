@@ -1,6 +1,7 @@
 package com.example.simpleweatherapplication.utils.adapters
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -39,13 +40,18 @@ class RecyclerViewAdapter : ListAdapter<RecyclerViewItem, RecyclerView.ViewHolde
     }
 
     companion object {
+        private val TAG = RecyclerViewAdapter::class.simpleName
         private val TASKS_COMPARATOR = object : DiffUtil.ItemCallback<RecyclerViewItem>() {
-            override fun areItemsTheSame(oldItem: RecyclerViewItem, newItem: RecyclerViewItem): Boolean =
-                oldItem.itemType == newItem.itemType
+            override fun areItemsTheSame(oldItem: RecyclerViewItem, newItem: RecyclerViewItem): Boolean {
+                Log.d(TAG, "areItemsTheSame - old: $oldItem new: $newItem - ${oldItem.itemType == newItem.itemType}")
+                return oldItem.itemType == newItem.itemType
+            }
 
             @SuppressLint("DiffUtilEquals")
-            override fun areContentsTheSame(oldItem: RecyclerViewItem, newItem: RecyclerViewItem): Boolean =
-                oldItem == newItem
+            override fun areContentsTheSame(oldItem: RecyclerViewItem, newItem: RecyclerViewItem): Boolean {
+                Log.d(TAG, "areContentsTheSame - old: $oldItem new: $newItem - ${oldItem == newItem}")
+                return oldItem == newItem
+            }
         }
     }
 }

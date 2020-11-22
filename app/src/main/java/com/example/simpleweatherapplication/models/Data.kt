@@ -4,10 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.example.simpleweatherapplication.room.WeatherConverter
-import com.example.simpleweatherapplication.ui_data.WeatherCardViewData
-import com.example.simpleweatherapplication.utils.RecyclerViewItem
 import com.google.gson.annotations.SerializedName
-import org.jetbrains.annotations.Nullable
 
 @Entity
 data class Data(

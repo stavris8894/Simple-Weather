@@ -1,15 +1,13 @@
-package com.example.simpleweatherapplication.models
+package com.example.simpleweatherapplication.utils.models
 
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import okio.IOException
-import retrofit2.HttpException
 import retrofit2.Response
 
 sealed class ResultWrapper<out T> {
     data class Success<out T>(val value: T) : ResultWrapper<T>()
-    data class Error(val errorResponse: ErrorResponse? = null) : ResultWrapper<Nothing>()
+    data class Error(val errorResponse: ErrorResponse) : ResultWrapper<Nothing>()
     object NetworkError : ResultWrapper<Nothing>()
 }
 

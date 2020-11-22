@@ -4,6 +4,7 @@ import com.datatheorem.android.trustkit.TrustKit
 import com.example.simpleweatherapplication.BuildConfig
 import com.example.simpleweatherapplication.network.ApiWebServices
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -40,6 +41,7 @@ private fun okHttp() = OkHttpClient.Builder()
             .build()
         chain.proceed(request)
     }.apply {
+        this.isLoggingInterceptorEnabled = BuildConfig.DEBUG
         if (BuildConfig.DEBUG) {
             try {
                 val hostName = URL(API_URL).host
@@ -59,3 +61,14 @@ private fun retrofit() = Retrofit.Builder()
     .client(okHttp())
     .addConverterFactory(GsonConverterFactory.create())
     .build()
+
+
+var OkHttpClient.Builder.isLoggingInterceptorEnabled: Boolean
+    get() = interceptors().find { it is HttpLoggingInterceptor } != null
+    set(value) {
+        if (value) {
+            val loggingInterceptor = HttpLoggingInterceptor()
+            loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            addInterceptor(loggingInterceptor)
+        }
+    }

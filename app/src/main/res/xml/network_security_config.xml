@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
-    <!-- Pin the domain www.datatheorem.com -->
-    <!-- Official Android N API -->
-    <domain-config>
-        <domain>www.datatheorem.com</domain>
+
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">demo55.netteller.com.cy</domain>
+        <domain includeSubdomains="true">demo68.netteller.com.cy</domain>
+        <domain includeSubdomains="true">demo12.netteller.com.cy</domain>
+        <domain includeSubdomains="true">mobile.vtbank.am</domain>
         <pin-set>
-            <pin digest="SHA-256">k3XnEYQCK79AtL9GYnT/nyhsabas03V+bhRQYHQbpXU=</pin>
-            <pin digest="SHA-256">2kOi4HdYYsvTR1sTIR7RHwlf2SescTrpza9ZrWy7poQ=</pin>
+            <!-- uat -->
+            <pin digest="SHA-256">F2Xba5afP/Kh36ED55LxFMLelD4C33/qCg9I0cvN/Z0=</pin>
+            <!-- demo -->
+            <pin digest="SHA-256">x7LEFfqCfJcy/hQON0xZ1zJdZI9cl214Et/QfPTb03w=</pin>
+            <!-- additional -->
+            <pin digest="SHA-256">jz/T6PohOUE9Uu3yVH9defbN5kYDxcdLnCCe5okCRpY=</pin>
+            <pin digest="SHA-256">mrkVcaX3dp4FHJteSZwC32JzOQbG16ag2XyvU0U2QEc=</pin>
         </pin-set>
-        <!-- TrustKit Android API -->
-        <!-- Do not enforce pinning validation -->
-        <trustkit-config enforcePinning="false">
-            <!-- Add a reporting URL for pin validation reports -->
-            <report-uri>http://report.datatheorem.com/log_report</report-uri>
-        </trustkit-config>
     </domain-config>
-<!--    <debug-overrides>-->
-<!--        <trust-anchors>-->
-<!--            &lt;!&ndash; For debugging purposes, add a debug CA and override pins &ndash;&gt;-->
-<!--            <certificates overridePins="true" src="@raw/debugca" />-->
-<!--        </trust-anchors>-->
-<!--    </debug-overrides>-->
+
 </network-security-config>

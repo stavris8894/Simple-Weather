@@ -26,7 +26,7 @@ class WeatherDatabaseRepository(application: Application) {
         return weatherDao.getAll()
     }
 
-    fun getByCityName(city: String): Flow<List<Data>> {
+    fun getByCityName(city: String): Flow<Data> {
         return weatherDao.getByCityName(city)
     }
 

@@ -1,4 +1,4 @@
-package com.example.simpleweatherapplication.models
+package com.example.simpleweatherapplication.utils.models
 
 import com.example.simpleweatherapplication.R
 import com.example.simpleweatherapplication.application.SimpleWeatherApp

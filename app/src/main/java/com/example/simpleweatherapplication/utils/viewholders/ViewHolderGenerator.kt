@@ -10,7 +10,7 @@ class ViewHolderGenerator {
     companion object {
 
         fun createViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            return RecyclerViewItemType.byViewType(viewType)?.clazz!!.primaryConstructor!!.call(parent)
+            return RecyclerViewItemType.byViewType(viewType).clazz.primaryConstructor!!.call(parent)
         }
     }
 }
