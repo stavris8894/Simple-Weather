@@ -1,23 +1,27 @@
 package com.example.simpleweatherapplication.weather.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.simpleweatherapplication.R
 import com.example.simpleweatherapplication.application.SimpleWeatherApp
 import com.example.simpleweatherapplication.models.Data
 import com.example.simpleweatherapplication.ui_data.ButtonViewData
 import com.example.simpleweatherapplication.ui_data.HeaderWeatherDetailsViewData
-import com.example.simpleweatherapplication.utils.models.ResultWrapper
 import com.example.simpleweatherapplication.ui_data.WeatherCardViewData
 import com.example.simpleweatherapplication.ui_data.WeatherDetailsViewData
 import com.example.simpleweatherapplication.utils.Event
-import com.example.simpleweatherapplication.utils.RecyclerViewItem
+import com.example.simpleweatherapplication.utils.interfaces.RecyclerViewItem
 import com.example.simpleweatherapplication.utils.extensions.toCelsius
+import com.example.simpleweatherapplication.utils.models.ResultWrapper
 import com.example.simpleweatherapplication.weather.repositories.WeatherDatabaseRepository
 import com.example.simpleweatherapplication.weather.repositories.WeatherRemoteRepository
+import kotlinx.coroutines.async
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class WeatherViewModel(
     application: Application,
@@ -42,7 +46,7 @@ class WeatherViewModel(
 
     fun getCityWeatherData(address: String, country: String? = null) {
         _showProgressBar.value = Event(true)
-        viewModelScope.launch {
+        viewModelScope.async {
             when (val weatherData = weatherRepository.getWeatherData(address, country)) {
                 is ResultWrapper.Success -> {
                     weatherData.value?.data?.let {
@@ -60,16 +64,23 @@ class WeatherViewModel(
     }
 
     private fun getDataFromDao() {
-        viewModelScope.launch {
+        viewModelScope.async {
             weatherDatabaseRepository.getAll().collect { it ->
                 _recycleViewItems.value = Event(convertDataToUIModel(it.sortedBy { it.cityName }))
             }
         }
     }
 
+
     fun refreshData() {
-        _showProgressBar.value = Event(false)
-        getDataFromDao()
+        viewModelScope.async {
+            weatherDatabaseRepository.getAll().collectLatest { it ->
+                it.forEach {
+                    getCityWeatherData(it.cityName, it.countryCode)
+                }
+                this.cancel()
+            }
+        }
     }
 
     private fun convertDataToUIModel(list: List<Data>): ArrayList<RecyclerViewItem> {
@@ -81,7 +92,7 @@ class WeatherViewModel(
     }
 
     private fun onClick(id: String) {
-        viewModelScope.launch {
+        viewModelScope.async {
             weatherDatabaseRepository.getByCityName(id).collectLatest {
                 val detailsData: ArrayList<RecyclerViewItem> = arrayListOf()
                 detailsData.add(HeaderWeatherDetailsViewData(it.cityName, it.temp.toString().toCelsius()))
@@ -95,6 +106,7 @@ class WeatherViewModel(
                     _dismissCityDetails.value = Event(true)
                 })
                 _showCityDetails.value = Event(detailsData)
+                this.cancel()
             }
         }
     }

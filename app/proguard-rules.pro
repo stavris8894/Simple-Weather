@@ -19,3 +19,13 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+#-keep class com.example.simpleweatherapplication.models.Weather {
+#    public *;
+#}
+#-keep class com.example.simpleweatherapplication.models.aDta {
+#    public *;
+#}
+-keep class com.example.simpleweatherapplication.models.ApiWeatherResponse {
+    public *;
+}

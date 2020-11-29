@@ -6,6 +6,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.commit
 import com.example.simpleweatherapplication.R
 
 fun FragmentActivity.getCurrentFragment(id: Int = R.id.fragmentContainer): Fragment? {
@@ -13,22 +14,23 @@ fun FragmentActivity.getCurrentFragment(id: Int = R.id.fragmentContainer): Fragm
 }
 
 fun FragmentActivity.replaceFragment(fragment: Fragment, id: Int = R.id.fragmentContainer) {
-    supportFragmentManager.beginTransaction()
-        .replace(id, fragment)
-        .commit()
+    supportFragmentManager.commit {
+        setReorderingAllowed(true)
+        replace(id, fragment)
+    }
 }
 
 fun FragmentActivity.showSelectionFragment(fragment: Fragment, id: Int = R.id.fragmentContainer) {
-    supportFragmentManager.beginTransaction()
-        .addToBackStack(null)
-        .setCustomAnimations(
+    supportFragmentManager.commit {
+        addToBackStack(null)
+        setCustomAnimations(
             R.anim.slide_in_up,
             android.R.anim.fade_out,
             android.R.anim.fade_in,
             R.anim.slide_out_bottom
         )
-        .replace(id, fragment)
-        .commit()
+        replace(id, fragment)
+    }
 }
 
 fun FragmentActivity.showToast(

@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import com.example.simpleweatherapplication.R
 import com.example.simpleweatherapplication.databinding.MainPageFragmentBinding
 import com.example.simpleweatherapplication.utils.EventObserver
-import com.example.simpleweatherapplication.utils.adapters.RecyclerViewAdapter
+import com.example.simpleweatherapplication.utils.adapters.WeatherAdapter
 import com.example.simpleweatherapplication.utils.extensions.showToast
 import com.example.simpleweatherapplication.utils.fragment.WeatherDetailsDialogFragment
 import com.example.simpleweatherapplication.utils.fragment.viewBinding
@@ -17,7 +17,7 @@ class WeatherFragment : Fragment(R.layout.main_page_fragment) {
 
     private val binding by viewBinding(MainPageFragmentBinding::bind)
 
-    private val recycleViewAdapter = RecyclerViewAdapter()
+    private val recycleViewAdapter = WeatherAdapter()
 
     private val weatherViewModel: WeatherViewModel by sharedViewModel()
 

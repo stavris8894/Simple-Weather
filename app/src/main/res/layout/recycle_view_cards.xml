@@ -41,7 +41,7 @@
                 android:paddingBottom="8dp"
                 android:src="@drawable/sunny" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/cardViewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                 app:autoSizeTextType="uniform"
                 tools:text="CardView  Title" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/cardViewSubTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
                 app:autoSizeTextType="uniform"
                 tools:text="CardView  Title" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/cardViewDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

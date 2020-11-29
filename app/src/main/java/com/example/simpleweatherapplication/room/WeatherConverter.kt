@@ -17,7 +17,7 @@ class WeatherConverter {
         @TypeConverter
         @JvmStatic
         fun fromJsonToWeather(weatherJson: String): Weather {
-            return Gson().fromJson<Weather>(weatherJson, Weather::class.java)
+            return Gson().fromJson(weatherJson, Weather::class.java)
         }
     }
 
