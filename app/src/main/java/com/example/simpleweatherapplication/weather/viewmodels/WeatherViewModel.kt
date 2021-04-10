@@ -22,8 +22,8 @@ class WeatherViewModel(
     private val weatherDatabaseRepository: WeatherDatabaseRepository
 ) : AndroidViewModel(application) {
 
-    private val _recycleViewItems = MutableLiveData<Event<ArrayList<RecyclerViewItem>>>()
-    val recycleViewItems: LiveData<Event<ArrayList<RecyclerViewItem>>> = _recycleViewItems
+    private val _recycleViewItems = MutableLiveData<Event<List<RecyclerViewItem>>>()
+    val recycleViewItems: LiveData<Event<List<RecyclerViewItem>>> = _recycleViewItems
 
     private val _showProgressBar = MutableLiveData<Event<Boolean>>()
     val showProgressBar: LiveData<Event<Boolean>> = _showProgressBar

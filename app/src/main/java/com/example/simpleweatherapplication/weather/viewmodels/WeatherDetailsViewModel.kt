@@ -17,8 +17,8 @@ class WeatherDetailsViewModel(
     private val weatherDatabaseRepository: WeatherDatabaseRepository
 ) : AndroidViewModel(application) {
 
-    private val _showCityDetails = MutableLiveData<Event<ArrayList<RecyclerViewItem>>>()
-    val showCityDetails: LiveData<Event<ArrayList<RecyclerViewItem>>> = _showCityDetails
+    private val _showCityDetails = MutableLiveData<Event<List<RecyclerViewItem>>>()
+    val showCityDetails: LiveData<Event<List<RecyclerViewItem>>> = _showCityDetails
 
     private val weatherDatasource = WeatherDatasource()
 
