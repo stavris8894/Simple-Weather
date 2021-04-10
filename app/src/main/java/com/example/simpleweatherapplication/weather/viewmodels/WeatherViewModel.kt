@@ -39,7 +39,7 @@ class WeatherViewModel(
         viewModelScope.launch {
             when (val weatherData = weatherRepository.getWeatherData(address, country)) {
                 is ResultWrapper.Success -> {
-                    weatherData.value.data.let {
+                    weatherData.value?.data?.let {
                         weatherDatabaseRepository.insert(it[0])
                     }.also { _showProgressBar.value = Event(false) }
                 }

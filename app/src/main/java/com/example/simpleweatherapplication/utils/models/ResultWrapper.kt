@@ -10,7 +10,7 @@ import retrofit2.HttpException
 import javax.net.ssl.SSLHandshakeException
 
 sealed class ResultWrapper<out T> {
-    data class Success<out T>(val value: T) : ResultWrapper<T>()
+    data class Success<out T>(val value: T?) : ResultWrapper<T>()
     data class Error(val errorResponse: ErrorResponse?) : ResultWrapper<Nothing>()
     object NetworkError : ResultWrapper<Nothing>()
 }
@@ -29,6 +29,9 @@ suspend fun <T> safeApiCall(dispatcher: CoroutineDispatcher, apiCall: suspend ()
                 is SSLHandshakeException -> {
                     LocalBroadcastManager.getInstance(SimpleWeatherApp()).sendBroadcast(Intent(INTENT_FILTER))
                     ResultWrapper.Error(null)
+                }
+                is NullPointerException -> {
+                    ResultWrapper.Error(errorResponse = ErrorResponse(status_code = 204, status_message = "Not found in API's DB"))
                 }
                 else -> {
                     ResultWrapper.NetworkError
