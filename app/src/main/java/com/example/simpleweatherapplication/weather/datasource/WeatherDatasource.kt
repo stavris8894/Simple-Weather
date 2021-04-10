@@ -81,12 +81,6 @@ class WeatherDatasource {
                 )
             )
             add(
-                WeatherDetailsViewData(
-                    id = WeatherActionsItem.LABEL,
-                    data = TitleSubtitleDataModel(SimpleWeatherApp.getString(R.string.last_update), weatherData.lastObservationTimeString)
-                )
-            )
-            add(
                 ButtonViewData(
                     id = WeatherActionsItem.DONE_BUTTON,
                     title = SimpleWeatherApp.getString(R.string.done)

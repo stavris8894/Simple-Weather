@@ -2,7 +2,7 @@
     <string name="app_name">Simple Weather</string>
     <string name="network_error">Network Error</string>
     <string name="unknown_error">Unknow Error</string>
-    <string name="date_time"><![CDATA[Date & Time]]></string>
+    <string name="date_time"><![CDATA[Date & Time]]> of Last Update</string>
     <string name="sunset">Sunset</string>
     <string name="timezone">Timezone</string>
     <string name="longitude">Longitude</string>
@@ -12,7 +12,6 @@
     <string name="biometric_title">Verify your identity</string>
     <string name="biometric_details">Authorise using your biometric credential</string>
     <string name="auth_not_supported">Please enable local authorization methods in order to use Simple Weather</string>
-    <string name="last_update">Last Update</string>
     <string name="certificate_not_valid">Certificate not valid</string>
 
 </resources>
