@@ -1,23 +1,24 @@
 package com.example.simpleweatherapplication.utils.viewholders
 
-import android.view.ViewGroup
-import androidx.annotation.Keep
-import androidx.recyclerview.widget.RecyclerView
-import com.example.simpleweatherapplication.R
+import com.example.simpleweatherapplication.databinding.RecycleDetailsButtonBinding
 import com.example.simpleweatherapplication.ui_data.ButtonViewData
-import com.example.simpleweatherapplication.utils.extensions.inflate
-import com.google.android.material.button.MaterialButton
+import com.example.simpleweatherapplication.utils.BindingViewHolder
+import com.example.simpleweatherapplication.utils.interfaces.RecyclerViewItem
+import com.example.simpleweatherapplication.utils.interfaces.ViewHolderId
 
-@Keep
-class DetailsButtonViewHolder(parent: ViewGroup) :
-    RecyclerView.ViewHolder(parent.inflate(R.layout.recycle_details_button)) {
+class DetailsButtonViewHolder(binding: RecycleDetailsButtonBinding) : BindingViewHolder<RecycleDetailsButtonBinding>(binding) {
+    var listener: ((RecyclerViewItem) -> Unit)? = null
 
-    fun bindData(buttonViewData: ButtonViewData) {
-        itemView.findViewById<MaterialButton>(R.id.doneButton).apply {
-            text = buttonViewData.title
-            setOnClickListener {
-                buttonViewData.onClick()
+    var data: ButtonViewData<out ViewHolderId>? = null
+        set(value) {
+            field = value
+            field?.let { data ->
+                binding.doneButton.apply {
+                    text = data.title
+                    setOnClickListener {
+                        listener?.invoke(data)
+                    }
+                }
             }
         }
-    }
 }

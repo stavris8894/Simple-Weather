@@ -1,16 +1,16 @@
 package com.example.simpleweatherapplication.ui_data
 
-import com.example.simpleweatherapplication.utils.interfaces.RecyclerViewItem
+import com.example.simpleweatherapplication.models.WeatherData
 import com.example.simpleweatherapplication.utils.RecyclerViewItemType
+import com.example.simpleweatherapplication.utils.interfaces.RecyclerViewUiItem
+import com.example.simpleweatherapplication.utils.interfaces.ViewHolderId
 
-data class WeatherCardViewData(
-    val id: String,
-    val title: String,
-    val subTitle: String,
-    val details: String,
-    val imageUrl: String = "error",
-    val listener: (String) -> Unit
-) : RecyclerViewItem {
+class WeatherCardViewData<T : ViewHolderId>(
+    id: T,
+    override val data: WeatherData,
+) : RecyclerViewUiItem<T>(id) {
     override val itemType: RecyclerViewItemType
         get() = RecyclerViewItemType.CARD_VIEWS
 }
+
+

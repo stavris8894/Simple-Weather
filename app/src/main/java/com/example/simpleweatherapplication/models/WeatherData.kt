@@ -7,7 +7,7 @@ import com.example.simpleweatherapplication.room.WeatherConverter
 import com.google.gson.annotations.SerializedName
 
 @Entity
-data class Data(
+data class WeatherData(
     @SerializedName("app_temp")
     val apparentTemperature: Double,
     @SerializedName("aqi")

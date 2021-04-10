@@ -1,7 +1,7 @@
 package com.example.simpleweatherapplication.weather.repositories
 
 import android.app.Application
-import com.example.simpleweatherapplication.models.Data
+import com.example.simpleweatherapplication.models.WeatherData
 import com.example.simpleweatherapplication.room.WeatherDao
 import com.example.simpleweatherapplication.room.WeatherDatabase
 import kotlinx.coroutines.flow.Flow
@@ -14,19 +14,19 @@ class WeatherDatabaseRepository(application: Application) {
         weatherDao.deleteAll()
     }
 
-    suspend fun insertAll(list: List<Data>) {
+    suspend fun insertAll(list: List<WeatherData>) {
         weatherDao.insertAll(list)
     }
 
-    suspend fun insert(data: Data) {
-        weatherDao.insert(data)
+    suspend fun insert(weatherData: WeatherData) {
+        weatherDao.insert(weatherData)
     }
 
-    fun getAll(): Flow<List<Data>> {
+    fun getAll(): Flow<List<WeatherData>> {
         return weatherDao.getAll()
     }
 
-    fun getByCityName(city: String): Flow<Data> {
+    fun getByCityName(city: String): Flow<WeatherData> {
         return weatherDao.getByCityName(city)
     }
 

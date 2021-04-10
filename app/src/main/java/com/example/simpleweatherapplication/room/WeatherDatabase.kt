@@ -6,12 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.simpleweatherapplication.models.Data
+import com.example.simpleweatherapplication.models.WeatherData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Data::class], version = 1, exportSchema = false)
+@Database(entities = [WeatherData::class], version = 1, exportSchema = false)
 @TypeConverters(WeatherConverter::class)
 abstract class WeatherDatabase : RoomDatabase() {
 

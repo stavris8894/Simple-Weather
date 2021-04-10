@@ -1,28 +1,28 @@
 package com.example.simpleweatherapplication.room
 
 import androidx.room.*
-import com.example.simpleweatherapplication.models.Data
+import com.example.simpleweatherapplication.models.WeatherData
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WeatherDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(list: List<Data>)
+    suspend fun insertAll(list: List<WeatherData>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(data: Data)
+    suspend fun insert(weatherData: WeatherData)
 
     @Update
-    suspend fun update(data: Data)
+    suspend fun update(weatherData: WeatherData)
 
-    @Query("SELECT * FROM data")
-    fun getAll(): Flow<List<Data>>
+    @Query("SELECT * FROM WeatherData")
+    fun getAll(): Flow<List<WeatherData>>
 
-    @Query("DELETE FROM data")
+    @Query("DELETE FROM WeatherData")
     suspend fun deleteAll()
 
-    @Query("SELECT * FROM data WHERE cityName=:city")
-    fun getByCityName(city: String): Flow<Data>
+    @Query("SELECT * FROM WeatherData WHERE cityName=:city")
+    fun getByCityName(city: String): Flow<WeatherData>
 
 }

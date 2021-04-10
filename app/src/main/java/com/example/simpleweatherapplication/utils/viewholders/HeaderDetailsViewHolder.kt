@@ -1,19 +1,19 @@
 package com.example.simpleweatherapplication.utils.viewholders
 
-import android.view.ViewGroup
-import androidx.annotation.Keep
-import androidx.recyclerview.widget.RecyclerView
-import com.example.simpleweatherapplication.R
+import com.example.simpleweatherapplication.databinding.RecycleDetailsHeaderBinding
 import com.example.simpleweatherapplication.ui_data.HeaderWeatherDetailsViewData
-import com.example.simpleweatherapplication.utils.extensions.inflate
-import com.google.android.material.textview.MaterialTextView
+import com.example.simpleweatherapplication.utils.BindingViewHolder
+import com.example.simpleweatherapplication.utils.interfaces.ViewHolderId
 
-@Keep
-class HeaderDetailsViewHolder(parent: ViewGroup) :
-    RecyclerView.ViewHolder(parent.inflate(R.layout.recycle_details_header)) {
+class HeaderDetailsViewHolder(binding: RecycleDetailsHeaderBinding) : BindingViewHolder<RecycleDetailsHeaderBinding>(binding) {
 
-    fun bindData(headerWeatherDetailsViewData: HeaderWeatherDetailsViewData) {
-        itemView.findViewById<MaterialTextView>(R.id.titleTextView).text = headerWeatherDetailsViewData.title
-        itemView.findViewById<MaterialTextView>(R.id.subTitleTextView).text = headerWeatherDetailsViewData.subTitle
-    }
+    var data: HeaderWeatherDetailsViewData<out ViewHolderId>? = null
+        set(value) {
+            field = value
+            field?.let {
+                binding.titleTextView.text = it.data.title
+                binding.subTitleTextView.text = it.data.subTitle
+            }
+        }
+
 }

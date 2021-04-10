@@ -1,4 +1,4 @@
-package com.example.simpleweatherapplication.utils.fragment
+package com.example.simpleweatherapplication.weather.ui
 
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -9,8 +9,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.simpleweatherapplication.R
 import com.example.simpleweatherapplication.databinding.WeatherDetailsFragmentBinding
-import com.example.simpleweatherapplication.utils.interfaces.RecyclerViewItem
 import com.example.simpleweatherapplication.utils.adapters.WeatherDetailsAdapter
+import com.example.simpleweatherapplication.utils.extensions.hasId
+import com.example.simpleweatherapplication.utils.fragment.viewBinding
+import com.example.simpleweatherapplication.utils.interfaces.RecyclerViewItem
+import com.example.simpleweatherapplication.weather.datasource.WeatherActionsItem
 
 class WeatherDetailsDialogFragment(
     private val recyclerViewItem: List<RecyclerViewItem>
@@ -26,7 +29,15 @@ class WeatherDetailsDialogFragment(
 
     private val binding by viewBinding(WeatherDetailsFragmentBinding::bind)
 
-    private val recyclerViewAdapter = WeatherDetailsAdapter()
+    private val recyclerViewAdapter = WeatherDetailsAdapter().apply {
+        listener = { item ->
+            when {
+                item.hasId(WeatherActionsItem.DONE_BUTTON) -> {
+                    dismiss()
+                }
+            }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         configureRecycleView()

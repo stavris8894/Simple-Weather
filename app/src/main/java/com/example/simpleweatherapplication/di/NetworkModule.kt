@@ -42,7 +42,7 @@ private fun okHttp() = OkHttpClient.Builder()
         chain.proceed(request)
     }.apply {
         this.isLoggingInterceptorEnabled = BuildConfig.DEBUG
-        if (BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG.not()) {
             try {
                 val hostName = URL(API_URL).host
                 sslSocketFactory(

@@ -1,33 +1,34 @@
 package com.example.simpleweatherapplication.utils.viewholders
 
-import android.view.ViewGroup
-import androidx.annotation.Keep
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.recyclerview.widget.RecyclerView
 import com.example.simpleweatherapplication.R
+import com.example.simpleweatherapplication.databinding.RecycleViewCardsBinding
 import com.example.simpleweatherapplication.ui_data.WeatherCardViewData
-import com.example.simpleweatherapplication.utils.extensions.inflate
+import com.example.simpleweatherapplication.utils.BindingViewHolder
 import com.example.simpleweatherapplication.utils.extensions.toCelsius
 import com.example.simpleweatherapplication.utils.extensions.toImgUrl
-import com.example.simpleweatherapplication.utils.views.MaskedCardView
-import com.google.android.material.textview.MaterialTextView
+import com.example.simpleweatherapplication.utils.interfaces.RecyclerViewItem
+import com.example.simpleweatherapplication.utils.interfaces.ViewHolderId
 import com.squareup.picasso.Picasso
 
-@Keep
-class CardViewHolder(parent: ViewGroup) :
-    RecyclerView.ViewHolder(parent.inflate(R.layout.recycle_view_cards)) {
+class CardViewHolder(binding: RecycleViewCardsBinding) : BindingViewHolder<RecycleViewCardsBinding>(binding) {
 
-    fun bindData(weatherCardViewData: WeatherCardViewData) {
-        itemView.findViewById<MaterialTextView>(R.id.cardViewTitle).text = weatherCardViewData.title
-        itemView.findViewById<MaterialTextView>(R.id.cardViewSubTitle).text = weatherCardViewData.subTitle
-        itemView.findViewById<MaterialTextView>(R.id.cardViewDetails).text = weatherCardViewData.details.toCelsius()
-        itemView.findViewById<MaskedCardView>(R.id.cardView).setOnClickListener { weatherCardViewData.listener(weatherCardViewData.id) }
-        Picasso.get()
-            .load(weatherCardViewData.imageUrl.toImgUrl())
-            .placeholder(R.drawable.progress_animation)
-            .error(R.drawable.ic_error_outline_24px)
-            .into(itemView.findViewById<AppCompatImageView>(R.id.cardViewImageView))
-    }
+    var listener: ((RecyclerViewItem) -> Unit)? = null
+
+    var data: WeatherCardViewData<out ViewHolderId>? = null
+        set(value) {
+            field = value
+            field?.let { weatherModel ->
+                binding.cardViewTitle.text = weatherModel.data.cityName
+                binding.cardViewSubTitle.text = weatherModel.data.countryCode
+                binding.cardViewDetails.text = weatherModel.data.temp.toString().toCelsius()
+                binding.cardView.setOnClickListener { listener?.invoke(weatherModel) }
+                Picasso.get()
+                    .load(weatherModel.data.weather.icon.toImgUrl())
+                    .placeholder(R.drawable.progress_animation)
+                    .error(R.drawable.ic_error_outline_24px)
+                    .into(binding.cardViewImageView)
+            }
+        }
 
     companion object {
         private val TAG = CardViewHolder::class.java.simpleName

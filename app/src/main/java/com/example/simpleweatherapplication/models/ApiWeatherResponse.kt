@@ -7,5 +7,5 @@ data class ApiWeatherResponse(
     @SerializedName("count")
     val count: Int,
     @SerializedName("data")
-    val data: List<Data>
+    val data: List<WeatherData>
 )
