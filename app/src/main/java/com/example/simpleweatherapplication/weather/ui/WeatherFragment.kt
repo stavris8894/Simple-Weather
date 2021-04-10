@@ -28,6 +28,9 @@ class WeatherFragment : Fragment(R.layout.main_page_fragment) {
                 }
             }
         }
+        removelistener = { item ->
+            weatherViewModel.removeWeatherData((item.data) as WeatherData)
+        }
     }
 
     private val weatherViewModel: WeatherViewModel by sharedViewModel()

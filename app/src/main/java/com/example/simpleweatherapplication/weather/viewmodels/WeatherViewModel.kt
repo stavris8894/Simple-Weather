@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.simpleweatherapplication.R
 import com.example.simpleweatherapplication.application.SimpleWeatherApp
+import com.example.simpleweatherapplication.models.WeatherData
 import com.example.simpleweatherapplication.utils.Event
 import com.example.simpleweatherapplication.utils.interfaces.RecyclerViewItem
 import com.example.simpleweatherapplication.utils.models.ResultWrapper
@@ -67,9 +68,20 @@ class WeatherViewModel(
 
     fun refreshData() {
         viewModelScope.launch {
-            weatherDatabaseRepository.getAllOneTime().forEach {
+            val weatherData = weatherDatabaseRepository.getAllOneTime()
+            if (weatherData.isEmpty()) {
+                _showProgressBar.value = Event(false)
+                return@launch
+            }
+            weatherData.forEach {
                 getCityWeatherData(it.cityName, it.countryCode)
             }
+        }
+    }
+
+    fun removeWeatherData(weatherData: WeatherData) {
+        viewModelScope.launch {
+            weatherDatabaseRepository.deleteWeather(weatherData)
         }
     }
 

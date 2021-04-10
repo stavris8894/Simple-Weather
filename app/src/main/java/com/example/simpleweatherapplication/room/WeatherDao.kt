@@ -16,6 +16,9 @@ interface WeatherDao {
     @Update
     suspend fun update(weatherData: WeatherData)
 
+    @Delete
+    suspend fun deleteWeather(weatherData: WeatherData)
+
     @Query("DELETE FROM WeatherData")
     suspend fun deleteAll()
 

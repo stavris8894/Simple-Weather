@@ -14,6 +14,10 @@ class WeatherDatabaseRepository(application: Application) {
         weatherDao.deleteAll()
     }
 
+    suspend fun deleteWeather(weatherData: WeatherData) {
+        weatherDao.deleteWeather(weatherData)
+    }
+
     suspend fun insertAll(list: List<WeatherData>) {
         weatherDao.insertAll(list)
     }

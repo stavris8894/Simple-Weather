@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso
 class CardViewHolder(binding: RecycleViewCardsBinding) : BindingViewHolder<RecycleViewCardsBinding>(binding) {
 
     var listener: ((RecyclerViewItem) -> Unit)? = null
+    var removelistener: ((RecyclerViewItem) -> Unit)? = null
 
     var data: WeatherCardViewData<out ViewHolderId>? = null
         set(value) {
@@ -27,6 +28,9 @@ class CardViewHolder(binding: RecycleViewCardsBinding) : BindingViewHolder<Recyc
                     .placeholder(R.drawable.progress_animation)
                     .error(R.drawable.ic_error_outline_24px)
                     .into(binding.cardViewImageView)
+                binding.fab.setOnClickListener {
+                    removelistener?.invoke(weatherModel)
+                }
             }
         }
 
