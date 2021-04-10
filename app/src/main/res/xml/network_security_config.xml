@@ -2,19 +2,13 @@
 <network-security-config>
 
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">demo55.netteller.com.cy</domain>
-        <domain includeSubdomains="true">demo68.netteller.com.cy</domain>
-        <domain includeSubdomains="true">demo12.netteller.com.cy</domain>
-        <domain includeSubdomains="true">mobile.vtbank.am</domain>
+        <domain includeSubdomains="true">api.weatherbit.io</domain>
         <pin-set>
-            <!-- uat -->
-            <pin digest="SHA-256">F2Xba5afP/Kh36ED55LxFMLelD4C33/qCg9I0cvN/Z0=</pin>
-            <!-- demo -->
+            <!-- main -->
+            <pin digest="SHA-256">6K7ac2Bw0/fOg8qDq09X36OP//YN6ATXMTaysN/Y0RE=</pin>
+            <!-- backup -->
             <pin digest="SHA-256">x7LEFfqCfJcy/hQON0xZ1zJdZI9cl214Et/QfPTb03w=</pin>
-            <!-- additional -->
-            <pin digest="SHA-256">jz/T6PohOUE9Uu3yVH9defbN5kYDxcdLnCCe5okCRpY=</pin>
-            <pin digest="SHA-256">mrkVcaX3dp4FHJteSZwC32JzOQbG16ag2XyvU0U2QEc=</pin>
         </pin-set>
+        <trustkit-config enforcePinning="true" />
     </domain-config>
-
 </network-security-config>

@@ -14,27 +14,31 @@ sealed class ResultWrapper<out T> {
 
 suspend fun <T> safeApiCall(dispatcher: CoroutineDispatcher, apiCall: suspend () -> Response<T>): ResultWrapper<T?> {
     return withContext(dispatcher) {
-        val response = apiCall.invoke()
-        if (response.isSuccessful) {
-            when {
-                response.code() == 200 -> {
-                    ResultWrapper.Success(response.body())
-                }
-                response.code() == 204 -> ResultWrapper.Error(ErrorResponse(status_code = 204, status_message = "Cannot be found in the API db"))
-                else -> ResultWrapper.NetworkError
-            }
-        } else {
-            if (response.errorBody() != null) {
-                try {
-                    Gson().fromJson(response.errorBody()?.toString(), ErrorResponse::class.java).let {
-                        ResultWrapper.Error(it)
+        try {
+            val response = apiCall.invoke()
+            if (response.isSuccessful) {
+                when {
+                    response.code() == 200 -> {
+                        ResultWrapper.Success(response.body())
                     }
-                } catch (t: Throwable) {
-                    ResultWrapper.Error(ErrorResponse(response.raw()))
+                    response.code() == 204 -> ResultWrapper.Error(ErrorResponse(status_code = 204, status_message = "Cannot be found in the API db"))
+                    else -> ResultWrapper.NetworkError
                 }
             } else {
-                ResultWrapper.Error(ErrorResponse(response.raw()))
+                if (response.errorBody() != null) {
+                    try {
+                        Gson().fromJson(response.errorBody()?.toString(), ErrorResponse::class.java).let {
+                            ResultWrapper.Error(it)
+                        }
+                    } catch (t: Throwable) {
+                        ResultWrapper.Error(ErrorResponse(response.raw()))
+                    }
+                } else {
+                    ResultWrapper.Error(ErrorResponse(response.raw()))
+                }
             }
+        } catch (e: Exception) {
+            ResultWrapper.NetworkError
         }
     }
 }
