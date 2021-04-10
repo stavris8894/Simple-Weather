@@ -13,8 +13,6 @@ import com.example.simpleweatherapplication.utils.models.ResultWrapper
 import com.example.simpleweatherapplication.weather.datasource.WeatherDatasource
 import com.example.simpleweatherapplication.weather.repositories.WeatherDatabaseRepository
 import com.example.simpleweatherapplication.weather.repositories.WeatherRemoteRepository
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -60,7 +58,7 @@ class WeatherViewModel(
 
     private fun getDataFromDao() {
         viewModelScope.launch {
-            weatherDatabaseRepository.getAll().collect { it ->
+            weatherDatabaseRepository.getAllFlow().collectLatest { it ->
                 _recycleViewItems.value = Event(weatherDatasource.convertDataToUIModel(it.sortedBy { it.cityName }))
             }
         }
@@ -69,11 +67,8 @@ class WeatherViewModel(
 
     fun refreshData() {
         viewModelScope.launch {
-            weatherDatabaseRepository.getAll().collectLatest { it ->
-                it.forEach {
-                    getCityWeatherData(it.cityName, it.countryCode)
-                }
-                cancel()
+            weatherDatabaseRepository.getAllOneTime().forEach {
+                getCityWeatherData(it.cityName, it.countryCode)
             }
         }
     }

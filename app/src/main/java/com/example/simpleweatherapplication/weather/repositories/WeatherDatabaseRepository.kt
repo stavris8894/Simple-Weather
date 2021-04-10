@@ -22,8 +22,12 @@ class WeatherDatabaseRepository(application: Application) {
         weatherDao.insert(weatherData)
     }
 
-    fun getAll(): Flow<List<WeatherData>> {
-        return weatherDao.getAll()
+    suspend fun getAllOneTime(): List<WeatherData> {
+        return weatherDao.getAllOneTime()
+    }
+
+    fun getAllFlow(): Flow<List<WeatherData>> {
+        return weatherDao.getAllFlow()
     }
 
     fun getByCityName(city: String): Flow<WeatherData> {

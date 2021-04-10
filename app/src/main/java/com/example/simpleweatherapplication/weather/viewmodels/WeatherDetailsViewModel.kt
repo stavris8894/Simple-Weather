@@ -9,7 +9,6 @@ import com.example.simpleweatherapplication.utils.Event
 import com.example.simpleweatherapplication.utils.interfaces.RecyclerViewItem
 import com.example.simpleweatherapplication.weather.datasource.WeatherDatasource
 import com.example.simpleweatherapplication.weather.repositories.WeatherDatabaseRepository
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -28,7 +27,6 @@ class WeatherDetailsViewModel(
             weatherDatabaseRepository.getByCityName(id).collectLatest {
                 val showWeatherDetails = weatherDatasource.showWeatherDetails(it)
                 _showCityDetails.value = Event(showWeatherDetails)
-                cancel()
             }
         }
     }

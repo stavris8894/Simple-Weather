@@ -16,13 +16,16 @@ interface WeatherDao {
     @Update
     suspend fun update(weatherData: WeatherData)
 
-    @Query("SELECT * FROM WeatherData")
-    fun getAll(): Flow<List<WeatherData>>
-
     @Query("DELETE FROM WeatherData")
     suspend fun deleteAll()
 
     @Query("SELECT * FROM WeatherData WHERE cityName=:city")
     fun getByCityName(city: String): Flow<WeatherData>
+
+    @Query("SELECT * FROM WeatherData")
+    suspend fun getAllOneTime(): List<WeatherData>
+
+    @Query("SELECT * FROM WeatherData")
+    fun getAllFlow(): Flow<List<WeatherData>>
 
 }
