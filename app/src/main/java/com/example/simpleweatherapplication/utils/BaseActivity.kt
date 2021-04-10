@@ -1,11 +1,18 @@
 package com.example.simpleweatherapplication.utils
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.simpleweatherapplication.R
+import com.example.simpleweatherapplication.utils.models.INTENT_FILTER
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.security.ProviderInstaller
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 abstract class BaseActivity : AppCompatActivity(), ProviderInstaller.ProviderInstallListener {
 
@@ -15,6 +22,29 @@ abstract class BaseActivity : AppCompatActivity(), ProviderInstaller.ProviderIns
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ProviderInstaller.installIfNeededAsync(this, this)
+    }
+
+    private val invalidPinDialog by lazy {
+        MaterialAlertDialogBuilder(this@BaseActivity)
+            .setTitle(R.string.app_name)
+            .setMessage(R.string.certificate_not_valid)
+            .setPositiveButton(android.R.string.ok, null)
+            .create()
+    }
+
+    private val invalidPinReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (invalidPinDialog.isShowing)
+                return
+            else
+                invalidPinDialog.show()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(invalidPinReceiver, IntentFilter(INTENT_FILTER))
     }
 
     /**

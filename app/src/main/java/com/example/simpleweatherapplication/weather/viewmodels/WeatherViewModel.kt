@@ -40,7 +40,7 @@ class WeatherViewModel(
         viewModelScope.launch {
             when (val weatherData = weatherRepository.getWeatherData(address, country)) {
                 is ResultWrapper.Success -> {
-                    weatherData.value?.data?.let {
+                    weatherData.value.data.let {
                         weatherDatabaseRepository.insert(it[0])
                     }.also { _showProgressBar.value = Event(false) }
                 }
@@ -48,7 +48,11 @@ class WeatherViewModel(
                     _showErrorMessage.value = Event(SimpleWeatherApp.getString(R.string.network_error)).also { _showProgressBar.value = Event(false) }
                 }
                 is ResultWrapper.Error -> {
-                    _showErrorMessage.value = Event(weatherData.errorResponse.getErrorMessage).also { _showProgressBar.value = Event(false) }
+                    weatherData.errorResponse?.let {
+                        _showErrorMessage.value = Event(it.getErrorMessage)
+                    }.also {
+                        _showProgressBar.value = Event(false)
+                    }
                 }
             }
         }
