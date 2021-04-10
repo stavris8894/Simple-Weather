@@ -12,5 +12,6 @@
     <string name="biometric_title">Verify your identity</string>
     <string name="biometric_details">Authorise using your biometric credential</string>
     <string name="auth_not_supported">Please enable local authorization methods in order to use Simple Weather</string>
+    <string name="last_update">Last Update</string>
 
 </resources>

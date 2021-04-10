@@ -6,28 +6,31 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.simpleweatherapplication.R
 import com.example.simpleweatherapplication.databinding.WeatherDetailsFragmentBinding
+import com.example.simpleweatherapplication.utils.EventObserver
 import com.example.simpleweatherapplication.utils.adapters.WeatherDetailsAdapter
 import com.example.simpleweatherapplication.utils.extensions.hasId
 import com.example.simpleweatherapplication.utils.fragment.viewBinding
-import com.example.simpleweatherapplication.utils.interfaces.RecyclerViewItem
 import com.example.simpleweatherapplication.weather.datasource.WeatherActionsItem
+import com.example.simpleweatherapplication.weather.viewmodels.WeatherDetailsViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WeatherDetailsDialogFragment(
-    private val recyclerViewItem: List<RecyclerViewItem>
+    private val cityName: String
 ) : DialogFragment(R.layout.weather_details_fragment) {
 
     companion object {
         val TAG: String = WeatherDetailsDialogFragment::class.java.simpleName
 
         fun newInstance(
-            recyclerViewItem: List<RecyclerViewItem>
-        ): WeatherDetailsDialogFragment = WeatherDetailsDialogFragment(recyclerViewItem)
+            cityName: String
+        ): WeatherDetailsDialogFragment = WeatherDetailsDialogFragment(cityName)
     }
 
     private val binding by viewBinding(WeatherDetailsFragmentBinding::bind)
+
+    private val viewModel: WeatherDetailsViewModel by viewModel()
 
     private val recyclerViewAdapter = WeatherDetailsAdapter().apply {
         listener = { item ->
@@ -41,13 +44,18 @@ class WeatherDetailsDialogFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         configureRecycleView()
+        configureObservers()
+    }
+
+    private fun configureObservers() {
+        viewModel.showCityDetails.observe(viewLifecycleOwner, EventObserver {
+            recyclerViewAdapter.submitList(it)
+        })
+        viewModel.showWeatherDetails(cityName)
     }
 
     private fun configureRecycleView() {
-        val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
-        binding.recyclerView.addItemDecoration(decoration)
         binding.recyclerView.adapter = recyclerViewAdapter
-        recyclerViewAdapter.submitList(recyclerViewItem)
     }
 
     override fun onResume() {

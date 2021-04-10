@@ -31,60 +31,68 @@ class WeatherDatasource {
 
     fun showWeatherDetails(weatherData: WeatherData): ArrayList<RecyclerViewItem> {
         val detailsData: ArrayList<RecyclerViewItem> = arrayListOf()
-        detailsData.add(
-            HeaderWeatherDetailsViewData(
-                id = WeatherActionsItem.LABEL,
-                data = TitleSubtitleDataModel(
-                    weatherData.cityName, weatherData.temp.toString().toCelsius()
+        detailsData.apply {
+            add(
+                HeaderWeatherDetailsViewData(
+                    id = WeatherActionsItem.LABEL,
+                    data = TitleSubtitleDataModel(
+                        weatherData.cityName, weatherData.temp.toString().toCelsius()
+                    )
                 )
             )
-        )
-        detailsData.add(
-            WeatherDetailsViewData(
-                id = WeatherActionsItem.LABEL,
-                data = TitleSubtitleDataModel(
-                    SimpleWeatherApp.getString(R.string.date_time), weatherData.lastObservationTimeString
+            add(
+                WeatherDetailsViewData(
+                    id = WeatherActionsItem.LABEL,
+                    data = TitleSubtitleDataModel(
+                        SimpleWeatherApp.getString(R.string.date_time), weatherData.lastObservationTimeString
+                    )
                 )
             )
-        )
-        detailsData.add(
-            WeatherDetailsViewData(
-                id = WeatherActionsItem.LABEL,
-                data = TitleSubtitleDataModel(SimpleWeatherApp.getString(R.string.sunset), weatherData.sunset)
-            )
-        )
-        detailsData.add(
-            WeatherDetailsViewData(
-                id = WeatherActionsItem.LABEL,
-                data = TitleSubtitleDataModel(SimpleWeatherApp.getString(R.string.timezone), weatherData.timezone)
-            )
-        )
-        detailsData.add(
-            WeatherDetailsViewData(
-                id = WeatherActionsItem.LABEL,
-                data = TitleSubtitleDataModel(SimpleWeatherApp.getString(R.string.countryCode), weatherData.countryCode)
-            )
-        )
-        detailsData.add(
-            WeatherDetailsViewData(
-                id = WeatherActionsItem.LABEL,
-                data = TitleSubtitleDataModel(
-                    SimpleWeatherApp.getString(R.string.longitude), weatherData.lon
+            add(
+                WeatherDetailsViewData(
+                    id = WeatherActionsItem.LABEL,
+                    data = TitleSubtitleDataModel(SimpleWeatherApp.getString(R.string.sunset), weatherData.sunset)
                 )
             )
-        )
-        detailsData.add(
-            WeatherDetailsViewData(
-                id = WeatherActionsItem.LABEL,
-                data = TitleSubtitleDataModel(SimpleWeatherApp.getString(R.string.latitude), weatherData.lat)
+            add(
+                WeatherDetailsViewData(
+                    id = WeatherActionsItem.LABEL,
+                    data = TitleSubtitleDataModel(SimpleWeatherApp.getString(R.string.timezone), weatherData.timezone)
+                )
             )
-        )
-        detailsData.add(
-            ButtonViewData(
-                id = WeatherActionsItem.DONE_BUTTON,
-                title = SimpleWeatherApp.getString(R.string.done)
+            add(
+                WeatherDetailsViewData(
+                    id = WeatherActionsItem.LABEL,
+                    data = TitleSubtitleDataModel(SimpleWeatherApp.getString(R.string.countryCode), weatherData.countryCode)
+                )
             )
-        )
+            add(
+                WeatherDetailsViewData(
+                    id = WeatherActionsItem.LABEL,
+                    data = TitleSubtitleDataModel(
+                        SimpleWeatherApp.getString(R.string.longitude), weatherData.lon
+                    )
+                )
+            )
+            add(
+                WeatherDetailsViewData(
+                    id = WeatherActionsItem.LABEL,
+                    data = TitleSubtitleDataModel(SimpleWeatherApp.getString(R.string.latitude), weatherData.lat)
+                )
+            )
+            add(
+                WeatherDetailsViewData(
+                    id = WeatherActionsItem.LABEL,
+                    data = TitleSubtitleDataModel(SimpleWeatherApp.getString(R.string.last_update), weatherData.lastObservationTimeString)
+                )
+            )
+            add(
+                ButtonViewData(
+                    id = WeatherActionsItem.DONE_BUTTON,
+                    title = SimpleWeatherApp.getString(R.string.done)
+                )
+            )
+        }
         return detailsData
     }
 }

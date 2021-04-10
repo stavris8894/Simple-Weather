@@ -33,9 +33,6 @@ class WeatherViewModel(
     private val _showErrorMessage = MutableLiveData<Event<String>>()
     val showErrorMessage: LiveData<Event<String>> = _showErrorMessage
 
-    private val _showCityDetails = MutableLiveData<Event<ArrayList<RecyclerViewItem>>>()
-    val showCityDetails: LiveData<Event<ArrayList<RecyclerViewItem>>> = _showCityDetails
-
     private val weatherDatasource = WeatherDatasource()
 
     fun getCityWeatherData(address: String, country: String? = null) {
@@ -72,16 +69,6 @@ class WeatherViewModel(
                 it.forEach {
                     getCityWeatherData(it.cityName, it.countryCode)
                 }
-                cancel()
-            }
-        }
-    }
-
-    fun showWeatherDetails(id: String) {
-        viewModelScope.launch {
-            weatherDatabaseRepository.getByCityName(id).collectLatest {
-                val showWeatherDetails = weatherDatasource.showWeatherDetails(it)
-                _showCityDetails.value = Event(showWeatherDetails)
                 cancel()
             }
         }

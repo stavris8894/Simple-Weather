@@ -23,7 +23,8 @@ class WeatherFragment : Fragment(R.layout.main_page_fragment) {
         listener = { item ->
             when {
                 item.hasId(WeatherActionsItem.SHOW_DETAILS) -> {
-                    weatherViewModel.showWeatherDetails((item.data as WeatherData).cityName)
+                    detailsDialogFragment = WeatherDetailsDialogFragment.newInstance((item.data as WeatherData).cityName)
+                    detailsDialogFragment.show(childFragmentManager, WeatherDetailsDialogFragment.TAG)
                 }
             }
         }
@@ -57,11 +58,6 @@ class WeatherFragment : Fragment(R.layout.main_page_fragment) {
 
         weatherViewModel.showErrorMessage.observe(viewLifecycleOwner, EventObserver {
             showToast(it)
-        })
-
-        weatherViewModel.showCityDetails.observe(viewLifecycleOwner, EventObserver {
-            detailsDialogFragment = WeatherDetailsDialogFragment.newInstance(it)
-            detailsDialogFragment.show(childFragmentManager, WeatherDetailsDialogFragment.TAG)
         })
     }
 }
