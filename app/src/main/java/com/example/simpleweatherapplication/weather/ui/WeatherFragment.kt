@@ -1,11 +1,14 @@
 package com.example.simpleweatherapplication.weather.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.example.simpleweatherapplication.R
 import com.example.simpleweatherapplication.databinding.MainPageFragmentBinding
 import com.example.simpleweatherapplication.models.WeatherData
+import com.example.simpleweatherapplication.state.viewstates.WeatherViewState
 import com.example.simpleweatherapplication.utils.EventObserver
 import com.example.simpleweatherapplication.utils.adapters.WeatherAdapter
 import com.example.simpleweatherapplication.utils.extensions.hasId
@@ -14,10 +17,13 @@ import com.example.simpleweatherapplication.utils.fragment.viewBinding
 import com.example.simpleweatherapplication.weather.datasource.WeatherActionsItem
 import com.example.simpleweatherapplication.weather.viewmodels.WeatherViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WeatherFragment : Fragment(R.layout.main_page_fragment) {
 
     private val binding by viewBinding(MainPageFragmentBinding::bind)
+
+    private val weatherViewModel: WeatherViewModel by viewModel()
 
     private val recycleViewAdapter = WeatherAdapter().apply {
         listener = { item ->
@@ -29,11 +35,11 @@ class WeatherFragment : Fragment(R.layout.main_page_fragment) {
             }
         }
         removelistener = { item ->
-            weatherViewModel.removeWeatherData((item.data) as WeatherData)
+//            weatherViewModel.removeWeatherData((item.data) as WeatherData)
         }
     }
 
-    private val weatherViewModel: WeatherViewModel by sharedViewModel()
+    private val mWeatherFragmentObserver = Observer(this::handleViewState)
 
     private lateinit var detailsDialogFragment: WeatherDetailsDialogFragment
 
@@ -43,24 +49,46 @@ class WeatherFragment : Fragment(R.layout.main_page_fragment) {
         configureObservers()
     }
 
+    override fun onResume() {
+        super.onResume()
+        weatherViewModel.apply {
+            liveState.observe(viewLifecycleOwner, mWeatherFragmentObserver)
+            addStatePropertyListener(WeatherViewState::error, this@WeatherFragment::handleViewState)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        weatherViewModel.apply {
+            liveState.removeObserver(mWeatherFragmentObserver)
+            removeStatePropertyListener(WeatherViewState::error, this@WeatherFragment::handleViewState)
+        }
+    }
+
+
+    private fun handleViewState(viewState: WeatherViewState) {
+        binding.swipeRefreshLayout.isRefreshing = viewState.showProgressBar
+        recycleViewAdapter.submitList(viewState.recycleViewItems)
+    }
+
     private fun configureElements() {
         binding.swipeRefreshLayout.setOnRefreshListener {
-            weatherViewModel.refreshData()
+//            weatherViewModel.refreshData()
         }
         binding.recyclerView.adapter = recycleViewAdapter
     }
 
     private fun configureObservers() {
-        weatherViewModel.recycleViewItems.observe(viewLifecycleOwner, EventObserver {
-            recycleViewAdapter.submitList(it.toList())
-        })
-
-        weatherViewModel.showProgressBar.observe(viewLifecycleOwner, EventObserver {
-            binding.swipeRefreshLayout.isRefreshing = it
-        })
-
-        weatherViewModel.showErrorMessage.observe(viewLifecycleOwner, EventObserver {
-            showToast(it)
-        })
+//        weatherViewModel.recycleViewItems.observe(viewLifecycleOwner, EventObserver {
+//            recycleViewAdapter.submitList(it.toList())
+//        })
+//
+//        weatherViewModel.showProgressBar.observe(viewLifecycleOwner, EventObserver {
+//            binding.swipeRefreshLayout.isRefreshing = it
+//        })
+//
+//        weatherViewModel.showErrorMessage.observe(viewLifecycleOwner, EventObserver {
+//            showToast(it)
+//        })
     }
 }

@@ -23,7 +23,7 @@ class WeatherActivity : BaseActivity() {
         setContentView(binding.root)
         replaceFragment(WeatherFragment())
         GooglePlaceFragment(supportFragmentManager).getPlace({ cityName, shortName ->
-            weatherViewModel.getCityWeatherData(cityName, shortName)
+//            weatherViewModel.getCityWeatherData(cityName, shortName)
         }) {
             Log.d(TAG, "GooglePlaceError: ${it.statusMessage}")
         }
