@@ -19,6 +19,7 @@ import com.example.simpleweatherapplication.weather.repositories.WeatherRemoteRe
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+import org.koin.ext.scope
 
 class WeatherViewModel(
     private val weatherInteractor: WeatherInteractor,
@@ -32,6 +33,12 @@ class WeatherViewModel(
                 weatherInteractor.getDataFromDao().collectLatest {
                     scope.emit(WeatherResult.AddWeathers(it))
                 }
+            }
+            is WeatherAction.FetchWeatherFromApi -> {
+                weatherInteractor.getCityWeatherData(action.cityName, action.shortName)
+            }
+            is WeatherAction.UpdateWeathers -> {
+                weatherInteractor.updateWeathers()
             }
             else -> {
                 scope.emit(WeatherResult.ActionWrapper(action))

@@ -13,21 +13,17 @@ class BaseLiveDataScope<T>(private val mLiveData: MutableLiveData<T>, context: C
 
     private val mediatorLiveData = MediatorLiveData<T>()
 
+    private var emittedSource: LiveDataEmittedSource? = null
+
     override val latestValue: T?
         get() = mLiveData.value
 
     private val coroutineContext = context + Dispatchers.Main.immediate
 
-    private var emittedSource: LiveDataEmittedSource? = null
-
-    override suspend fun emit(value: T) = withContext(coroutineContext) {
-        clearSource()
-        mLiveData.value = value
-    }
-
     override suspend fun emitSource(source: LiveData<T>): DisposableHandle =
         withContext(coroutineContext) {
             clearSource()
+
             val newSource = withContext(Dispatchers.Main.immediate) {
                 mediatorLiveData.addSource(source) {
                     mLiveData.value = it
@@ -41,6 +37,11 @@ class BaseLiveDataScope<T>(private val mLiveData: MutableLiveData<T>, context: C
 
             return@withContext newSource
         }
+
+    override suspend fun emit(value: T) = withContext(coroutineContext) {
+        clearSource()
+        mLiveData.value = value
+    }
 
 
     private suspend fun clearSource() {

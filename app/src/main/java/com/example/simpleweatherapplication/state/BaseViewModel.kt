@@ -24,7 +24,6 @@ abstract class BaseViewModel<S : ViewState, A : Action, R : Result> : ViewModel(
     private val mPropertyListenersObserver = Observer<S> {}
     private val mStatePropertyListeners = mutableListOf<Pair<List<KProperty1<S, Any?>>, (state: S) -> Unit>>()
 
-
     private fun callStatePropertyListeners(oldState: S, newState: S) {
         mStatePropertyListeners.forEach { (props, listener) ->
             for (prop in props) {
@@ -37,14 +36,9 @@ abstract class BaseViewModel<S : ViewState, A : Action, R : Result> : ViewModel(
     }
 
     private val mDispatchedJobs = ConcurrentHashMap<String, DispatchedJobs>()
+    private var mLastDispatchedJobsCleanup = System.currentTimeMillis()
     private val mResult = QueueMutableLiveData<R>()
     private val mResultLiveDataScope: LiveDataScope<R> = BaseLiveDataScope(mResult, viewModelScope.coroutineContext)
-    private var mLastDispatchedJobsCleanup = System.currentTimeMillis()
-
-    val state: S
-        get() {
-            return liveState.value ?: getInitialState()
-        }
 
     val liveState = Transformations.map(mResult) {
         val oldState = state
@@ -66,6 +60,11 @@ abstract class BaseViewModel<S : ViewState, A : Action, R : Result> : ViewModel(
             oldState
         }
     }
+
+    val state: S
+        get() {
+            return liveState.value ?: getInitialState()
+        }
 
     fun dispatch(action: A) {
         val job = viewModelScope.launch(Dispatchers.IO) {

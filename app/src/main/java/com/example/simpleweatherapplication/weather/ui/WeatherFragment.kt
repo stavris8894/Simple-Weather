@@ -3,11 +3,13 @@ package com.example.simpleweatherapplication.weather.ui
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.simpleweatherapplication.R
 import com.example.simpleweatherapplication.databinding.MainPageFragmentBinding
 import com.example.simpleweatherapplication.models.WeatherData
+import com.example.simpleweatherapplication.state.actions.WeatherAction
 import com.example.simpleweatherapplication.state.viewstates.WeatherViewState
 import com.example.simpleweatherapplication.utils.EventObserver
 import com.example.simpleweatherapplication.utils.adapters.WeatherAdapter
@@ -53,7 +55,7 @@ class WeatherFragment : Fragment(R.layout.main_page_fragment) {
         super.onResume()
         weatherViewModel.apply {
             liveState.observe(viewLifecycleOwner, mWeatherFragmentObserver)
-            addStatePropertyListener(WeatherViewState::error, this@WeatherFragment::handleViewState)
+            addStatePropertyListener(WeatherViewState::error, this@WeatherFragment::handleError)
         }
     }
 
@@ -61,7 +63,7 @@ class WeatherFragment : Fragment(R.layout.main_page_fragment) {
         super.onPause()
         weatherViewModel.apply {
             liveState.removeObserver(mWeatherFragmentObserver)
-            removeStatePropertyListener(WeatherViewState::error, this@WeatherFragment::handleViewState)
+            removeStatePropertyListener(WeatherViewState::error, this@WeatherFragment::handleError)
         }
     }
 
@@ -71,8 +73,13 @@ class WeatherFragment : Fragment(R.layout.main_page_fragment) {
         recycleViewAdapter.submitList(viewState.recycleViewItems)
     }
 
+    private fun handleError(viewState: WeatherViewState) {
+        Toast.makeText(context, viewState.errorMessage, Toast.LENGTH_SHORT).show()
+    }
+
     private fun configureElements() {
         binding.swipeRefreshLayout.setOnRefreshListener {
+            weatherViewModel.dispatch(WeatherAction.UpdateWeathers)
 //            weatherViewModel.refreshData()
         }
         binding.recyclerView.adapter = recycleViewAdapter

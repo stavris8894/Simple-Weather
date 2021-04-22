@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import com.example.simpleweatherapplication.databinding.ActivityMainBinding
+import com.example.simpleweatherapplication.state.actions.WeatherAction
 import com.example.simpleweatherapplication.utils.BaseActivity
 import com.example.simpleweatherapplication.utils.GooglePlaceFragment
 import com.example.simpleweatherapplication.utils.extensions.replaceFragment
@@ -23,7 +24,7 @@ class WeatherActivity : BaseActivity() {
         setContentView(binding.root)
         replaceFragment(WeatherFragment())
         GooglePlaceFragment(supportFragmentManager).getPlace({ cityName, shortName ->
-//            weatherViewModel.getCityWeatherData(cityName, shortName)
+            weatherViewModel.dispatch(WeatherAction.FetchWeatherFromApi(cityName, shortName))
         }) {
             Log.d(TAG, "GooglePlaceError: ${it.statusMessage}")
         }
