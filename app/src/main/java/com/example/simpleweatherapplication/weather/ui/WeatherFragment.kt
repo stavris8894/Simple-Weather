@@ -11,14 +11,12 @@ import com.example.simpleweatherapplication.databinding.MainPageFragmentBinding
 import com.example.simpleweatherapplication.models.WeatherData
 import com.example.simpleweatherapplication.state.actions.WeatherAction
 import com.example.simpleweatherapplication.state.viewstates.WeatherViewState
-import com.example.simpleweatherapplication.utils.EventObserver
+import com.example.simpleweatherapplication.utils.GooglePlaceFragment
 import com.example.simpleweatherapplication.utils.adapters.WeatherAdapter
 import com.example.simpleweatherapplication.utils.extensions.hasId
-import com.example.simpleweatherapplication.utils.extensions.showToast
 import com.example.simpleweatherapplication.utils.fragment.viewBinding
 import com.example.simpleweatherapplication.weather.datasource.WeatherActionsItem
 import com.example.simpleweatherapplication.weather.viewmodels.WeatherViewModel
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WeatherFragment : Fragment(R.layout.main_page_fragment) {
@@ -37,7 +35,7 @@ class WeatherFragment : Fragment(R.layout.main_page_fragment) {
             }
         }
         removelistener = { item ->
-//            weatherViewModel.removeWeatherData((item.data) as WeatherData)
+            weatherViewModel.dispatch(WeatherAction.RemoveWeather(item.data as WeatherData))
         }
     }
 
@@ -49,6 +47,11 @@ class WeatherFragment : Fragment(R.layout.main_page_fragment) {
         super.onViewCreated(view, savedInstanceState)
         configureElements()
         configureObservers()
+        GooglePlaceFragment(fragmentManager = childFragmentManager).getPlace({ cityName, shortName ->
+            weatherViewModel.dispatch(WeatherAction.FetchWeatherFromApi(cityName, shortName))
+        }) {
+            Log.d(TAG, "GooglePlaceError: ${it.statusMessage}")
+        }
     }
 
     override fun onResume() {
@@ -74,7 +77,7 @@ class WeatherFragment : Fragment(R.layout.main_page_fragment) {
     }
 
     private fun handleError(viewState: WeatherViewState) {
-        Toast.makeText(context, viewState.errorMessage, Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, viewState.error.toString(), Toast.LENGTH_SHORT).show()
     }
 
     private fun configureElements() {
@@ -97,5 +100,10 @@ class WeatherFragment : Fragment(R.layout.main_page_fragment) {
 //        weatherViewModel.showErrorMessage.observe(viewLifecycleOwner, EventObserver {
 //            showToast(it)
 //        })
+    }
+
+    companion object {
+        private val TAG = WeatherFragment::class.java.simpleName
+
     }
 }

@@ -15,6 +15,11 @@ class LiveDataEmittedSource(
         removeSource()
     }
 
+    override fun dispose() {
+        CoroutineScope(Dispatchers.Main.immediate).launch {
+            removeSource()
+        }
+    }
     @MainThread
     private fun removeSource() {
         if (!disposed) {
@@ -23,9 +28,5 @@ class LiveDataEmittedSource(
         }
     }
 
-    override fun dispose() {
-        CoroutineScope(Dispatchers.Main.immediate).launch {
-            removeSource()
-        }
-    }
+
 }

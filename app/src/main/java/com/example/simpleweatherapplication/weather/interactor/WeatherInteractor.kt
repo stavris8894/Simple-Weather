@@ -1,7 +1,6 @@
 package com.example.simpleweatherapplication.weather.interactor
 
 import com.example.simpleweatherapplication.models.WeatherData
-import com.example.simpleweatherapplication.utils.models.ResultWrapper
 import com.example.simpleweatherapplication.weather.repositories.WeatherDatabaseRepository
 import com.example.simpleweatherapplication.weather.repositories.WeatherRemoteRepository
 import kotlinx.coroutines.coroutineScope
@@ -18,23 +17,25 @@ class WeatherInteractor(
                     weatherDatabaseRepository.insert(it[0])
                 }
             }
-//            when (val weatherData = weatherRepository.getWeatherData(address, country)) {
-//                is ResultWrapper.Success -> {
-//                    weatherData.value?.data?.let {
-//                        weatherDatabaseRepository.insert(it[0])
-//                    }
-//                }
-//                is ResultWrapper.NetworkError -> {
-//
-//                }
-//                is ResultWrapper.Error -> {
-//
-//                }
-//            }
         }
     }
 
-    fun updateWeathers() {
+    suspend fun removeWeatherData(weatherData: WeatherData) {
+        coroutineScope {
+            weatherDatabaseRepository.deleteWeather(weatherData)
+        }
+    }
+
+    suspend fun updateWeathers() {
+        coroutineScope {
+            val weatherData = weatherDatabaseRepository.getAllOneTime()
+            if (weatherData.isEmpty()) {
+                return@coroutineScope
+            }
+            weatherData.forEach {
+                getCityWeatherData(it.cityName, it.countryCode)
+            }
+        }
 
     }
 

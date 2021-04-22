@@ -86,6 +86,31 @@ abstract class BaseViewModel<S : ViewState, A : Action, R : Result> : ViewModel(
         mDispatchedJobs.getOrPut(action.javaClass.name, { DispatchedJobs() }).add(job)
     }
 
+    protected fun cancelPreviousDispatches(action: A, includeLast: Boolean = false) {
+        cancelPreviousDispatches(action.javaClass, includeLast)
+    }
+
+    protected fun <T : A> cancelPreviousDispatches(action: Class<T>, includeLast: Boolean = false) {
+        val dispatchedJobs = mDispatchedJobs[action.name] ?: return
+        dispatchedJobs.cancelPreviousJobs(includeLast)
+    }
+
+    @Synchronized
+    private fun cleanupDispatchesJobs() {
+        if (System.currentTimeMillis() - mLastDispatchedJobsCleanup < 30_000) {
+            return
+        }
+
+        mLastDispatchedJobsCleanup = System.currentTimeMillis()
+
+        try {
+            mDispatchedJobs.values.forEach {
+                it.clearInactiveJobs()
+            }
+        } catch (ex: Throwable) {
+        }
+    }
+
     fun addStatePropertyListener(prop: KProperty1<S, Any?>, listener: (state: S) -> Unit) {
         addStatePropertyListener(listOf(prop), listener)
     }
@@ -126,19 +151,5 @@ abstract class BaseViewModel<S : ViewState, A : Action, R : Result> : ViewModel(
         }
     }
 
-    @Synchronized
-    private fun cleanupDispatchesJobs() {
-        if (System.currentTimeMillis() - mLastDispatchedJobsCleanup < 30_000) {
-            return
-        }
 
-        mLastDispatchedJobsCleanup = System.currentTimeMillis()
-
-        try {
-            mDispatchedJobs.values.forEach {
-                it.clearInactiveJobs()
-            }
-        } catch (ex: Throwable) {
-        }
-    }
 }

@@ -16,7 +16,7 @@ enum class WeatherActionsItem : ViewHolderId {
 
 class WeatherDatasource {
 
-    fun convertDataToUIModel(list: List<WeatherData>): ArrayList<RecyclerViewItem> {
+    fun convertDataToUIModel(list: List<WeatherData>): List<RecyclerViewItem> {
         val uiData: ArrayList<RecyclerViewItem> = arrayListOf()
         list.forEach {
             uiData.add(
@@ -26,7 +26,7 @@ class WeatherDatasource {
                 )
             )
         }
-        return uiData
+        return uiData.sortedBy { (it.data as WeatherData).cityName }
     }
 
     fun showWeatherDetails(weatherData: WeatherData): ArrayList<RecyclerViewItem> {

@@ -21,6 +21,7 @@ class DispatchedJobs {
     fun cancelPreviousJobs(includeLast: Boolean) {
         try {
             mLock.acquire()
+
             mJobs.forEachIndexed { index, job ->
                 if (job.isActive && (includeLast || index != mJobs.size - 1)) {
                     job.cancel(CancellationException("Cancelled previous dispatches"))
