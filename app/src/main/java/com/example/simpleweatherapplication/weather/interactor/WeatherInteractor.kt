@@ -39,6 +39,8 @@ class WeatherInteractor(
 
     }
 
+    fun getWeatherDetailsById(id: String) = weatherDatabaseRepository.getByCityName(id)
+
     fun getDataFromDao(): Flow<List<WeatherData>> {
         return weatherDatabaseRepository.getAllFlow()
     }

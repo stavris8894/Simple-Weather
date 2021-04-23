@@ -46,7 +46,6 @@ class WeatherFragment : Fragment(R.layout.main_page_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         configureElements()
-        configureObservers()
         GooglePlaceFragment(fragmentManager = childFragmentManager).getPlace({ cityName, shortName ->
             weatherViewModel.dispatch(WeatherAction.FetchWeatherFromApi(cityName, shortName))
         }) {
@@ -58,7 +57,7 @@ class WeatherFragment : Fragment(R.layout.main_page_fragment) {
         super.onResume()
         weatherViewModel.apply {
             liveState.observe(viewLifecycleOwner, mWeatherFragmentObserver)
-            addStatePropertyListener(WeatherViewState::error, this@WeatherFragment::handleError)
+            addStatePropertyListener(WeatherViewState::error, this@WeatherFragment::handleViewState)
         }
     }
 
@@ -66,7 +65,7 @@ class WeatherFragment : Fragment(R.layout.main_page_fragment) {
         super.onPause()
         weatherViewModel.apply {
             liveState.removeObserver(mWeatherFragmentObserver)
-            removeStatePropertyListener(WeatherViewState::error, this@WeatherFragment::handleError)
+            removeStatePropertyListener(WeatherViewState::error, this@WeatherFragment::handleViewState)
         }
     }
 
@@ -74,33 +73,19 @@ class WeatherFragment : Fragment(R.layout.main_page_fragment) {
     private fun handleViewState(viewState: WeatherViewState) {
         binding.swipeRefreshLayout.isRefreshing = viewState.showProgressBar
         recycleViewAdapter.submitList(viewState.recycleViewItems)
+        viewState.error?.let {
+            Toast.makeText(context, it.localizedMessage, Toast.LENGTH_SHORT).show()
+        }
     }
 
-    private fun handleError(viewState: WeatherViewState) {
-        Toast.makeText(context, viewState.error.toString(), Toast.LENGTH_SHORT).show()
-    }
 
     private fun configureElements() {
         binding.swipeRefreshLayout.setOnRefreshListener {
             weatherViewModel.dispatch(WeatherAction.UpdateWeathers)
-//            weatherViewModel.refreshData()
         }
         binding.recyclerView.adapter = recycleViewAdapter
     }
 
-    private fun configureObservers() {
-//        weatherViewModel.recycleViewItems.observe(viewLifecycleOwner, EventObserver {
-//            recycleViewAdapter.submitList(it.toList())
-//        })
-//
-//        weatherViewModel.showProgressBar.observe(viewLifecycleOwner, EventObserver {
-//            binding.swipeRefreshLayout.isRefreshing = it
-//        })
-//
-//        weatherViewModel.showErrorMessage.observe(viewLifecycleOwner, EventObserver {
-//            showToast(it)
-//        })
-    }
 
     companion object {
         private val TAG = WeatherFragment::class.java.simpleName

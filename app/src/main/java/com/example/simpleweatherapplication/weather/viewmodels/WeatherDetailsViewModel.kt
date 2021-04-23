@@ -1,33 +1,46 @@
 package com.example.simpleweatherapplication.weather.viewmodels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.example.simpleweatherapplication.utils.Event
-import com.example.simpleweatherapplication.utils.interfaces.RecyclerViewItem
+import androidx.lifecycle.LiveDataScope
+import com.example.simpleweatherapplication.state.BaseViewModel
+import com.example.simpleweatherapplication.state.actions.WeatherDetailsAction
+import com.example.simpleweatherapplication.state.results.WeatherDetailsResult
+import com.example.simpleweatherapplication.state.viewstates.WeatherDetailsViewState
 import com.example.simpleweatherapplication.weather.datasource.WeatherDatasource
-import com.example.simpleweatherapplication.weather.repositories.WeatherDatabaseRepository
+import com.example.simpleweatherapplication.weather.interactor.WeatherInteractor
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class WeatherDetailsViewModel(
-    application: Application,
-    private val weatherDatabaseRepository: WeatherDatabaseRepository
-) : AndroidViewModel(application) {
-
-    private val _showCityDetails = MutableLiveData<Event<List<RecyclerViewItem>>>()
-    val showCityDetails: LiveData<Event<List<RecyclerViewItem>>> = _showCityDetails
+    private val weatherInteractor: WeatherInteractor
+) : BaseViewModel<WeatherDetailsViewState, WeatherDetailsAction, WeatherDetailsResult>() {
 
     private val weatherDatasource = WeatherDatasource()
 
-    fun showWeatherDetails(id: String) {
-        viewModelScope.launch {
-            weatherDatabaseRepository.getByCityName(id).collectLatest {
-                val showWeatherDetails = weatherDatasource.showWeatherDetails(it)
-                _showCityDetails.value = Event(showWeatherDetails)
+    override fun getInitialState(): WeatherDetailsViewState = WeatherDetailsViewState()
+
+    override fun handleError(action: WeatherDetailsAction, error: Throwable): WeatherDetailsResult {
+        return WeatherDetailsResult.Error(error, action)
+    }
+
+    override suspend fun handle(scope: LiveDataScope<WeatherDetailsResult>, action: WeatherDetailsAction) {
+        when (action) {
+            is WeatherDetailsAction.GetWeatherDetails -> {
+                weatherInteractor.getWeatherDetailsById(action.id).collectLatest {
+                    scope.emit(WeatherDetailsResult.ShowWeatherDetails(it))
+                }
             }
+            else -> scope.emit(WeatherDetailsResult.ActionWrapper(action))
+        }
+    }
+
+    override fun reduce(result: WeatherDetailsResult): WeatherDetailsViewState {
+        return when (result) {
+            is WeatherDetailsResult.ActionWrapper -> when (val action = result.action) {
+                else -> state
+            }
+            is WeatherDetailsResult.Error -> state.copy(error = result.error)
+            is WeatherDetailsResult.ShowWeatherDetails -> state.copy(
+                weatherData = weatherDatasource.showWeatherDetails(result.weatherData)
+            )
         }
     }
 }

@@ -6,8 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
 import com.example.simpleweatherapplication.R
 import com.example.simpleweatherapplication.databinding.WeatherDetailsFragmentBinding
+import com.example.simpleweatherapplication.state.actions.WeatherDetailsAction
+import com.example.simpleweatherapplication.state.viewstates.WeatherDetailsViewState
+import com.example.simpleweatherapplication.state.viewstates.WeatherViewState
 import com.example.simpleweatherapplication.utils.EventObserver
 import com.example.simpleweatherapplication.utils.adapters.WeatherDetailsAdapter
 import com.example.simpleweatherapplication.utils.extensions.hasId
@@ -42,25 +46,38 @@ class WeatherDetailsDialogFragment(
         }
     }
 
+    private val mWeatherFragmentObserver = Observer(this::handleViewState)
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         configureRecycleView()
-        configureObservers()
+        viewModel.dispatch(WeatherDetailsAction.GetWeatherDetails(cityName))
     }
 
-    private fun configureObservers() {
-        viewModel.showCityDetails.observe(viewLifecycleOwner, EventObserver {
-            recyclerViewAdapter.submitList(it)
-        })
-        viewModel.showWeatherDetails(cityName)
+    override fun onResume() {
+        super.onResume()
+        viewModel.apply {
+            liveState.observe(viewLifecycleOwner, mWeatherFragmentObserver)
+            addStatePropertyListener(WeatherDetailsViewState::error, this@WeatherDetailsDialogFragment::handleViewState)
+        }
+        adjustDialogSize()
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.apply {
+            liveState.removeObserver(mWeatherFragmentObserver)
+            removeStatePropertyListener(WeatherDetailsViewState::error, this@WeatherDetailsDialogFragment::handleViewState)
+        }
     }
 
     private fun configureRecycleView() {
         binding.recyclerView.adapter = recyclerViewAdapter
     }
 
-    override fun onResume() {
-        super.onResume()
-        adjustDialogSize()
+    private fun handleViewState(viewState: WeatherDetailsViewState) {
+        recyclerViewAdapter.submitList(viewState.weatherData)
     }
 
     private fun adjustDialogSize() {
