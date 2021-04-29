@@ -1,7 +1,7 @@
 package com.example.simpleweatherapplication.utils.models
 
 import com.example.simpleweatherapplication.R
-import com.example.simpleweatherapplication.application.SimpleWeatherApp
+import com.example.simpleweatherapplication.application.App
 import okhttp3.Response
 
 data class ErrorResponse(
@@ -13,6 +13,6 @@ data class ErrorResponse(
 
     val getErrorMessage: String
         get() {
-            return status_message ?: error ?: SimpleWeatherApp.getString(R.string.unknown_error)
+            return status_message ?: error ?: App.getString(R.string.unknown_error)
         }
 }

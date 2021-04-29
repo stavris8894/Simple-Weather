@@ -2,7 +2,7 @@ package com.example.simpleweatherapplication.utils.models
 
 import android.content.Intent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.example.simpleweatherapplication.application.SimpleWeatherApp
+import com.example.simpleweatherapplication.application.App
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -27,7 +27,7 @@ suspend fun <T> safeApiCall(dispatcher: CoroutineDispatcher, apiCall: suspend ()
                     ResultWrapper.Error(errorResponse)
                 }
                 is SSLHandshakeException -> {
-                    LocalBroadcastManager.getInstance(SimpleWeatherApp()).sendBroadcast(Intent(INTENT_FILTER))
+                    LocalBroadcastManager.getInstance(App()).sendBroadcast(Intent(INTENT_FILTER))
                     ResultWrapper.Error(null)
                 }
                 is NullPointerException -> {

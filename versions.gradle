@@ -1,0 +1,21 @@
+def build_versions = [:]
+build_versions.min_sdk = 25
+build_versions.target_sdk = 30
+ext.build_versions = build_versions
+
+def versions = [:]
+versions.koin = '2.2.2'
+versions.kotlin = '1.5.0'
+versions.navigation = '2.3.5'
+versions.room = '2.3.0'
+versions.coroutines = '1.5.0-RC'
+versions.lifecycle = '2.3.1'
+versions.retrofit = '2.9.0'
+versions.okhttp3 = '4.9.1'
+ext.versions = versions
+
+static def addRepos(RepositoryHandler handler){
+    handler.google()
+    handler.jcenter()
+}
+ext.addRepos = this.&addRepos

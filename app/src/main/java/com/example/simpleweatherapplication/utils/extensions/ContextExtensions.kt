@@ -1,5 +1,6 @@
 package com.example.simpleweatherapplication.utils.extensions
 
+import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.widget.TextView
@@ -8,6 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
 import com.example.simpleweatherapplication.R
+import com.example.simpleweatherapplication.application.App
+
+val Context.app: App
+    get() = applicationContext as App
 
 fun FragmentActivity.getCurrentFragment(id: Int = R.id.fragmentContainer): Fragment? {
     return supportFragmentManager.findFragmentById(id)

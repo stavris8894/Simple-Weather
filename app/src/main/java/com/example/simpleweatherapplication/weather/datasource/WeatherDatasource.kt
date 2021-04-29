@@ -1,7 +1,7 @@
 package com.example.simpleweatherapplication.weather.datasource
 
 import com.example.simpleweatherapplication.R
-import com.example.simpleweatherapplication.application.SimpleWeatherApp
+import com.example.simpleweatherapplication.application.App
 import com.example.simpleweatherapplication.models.WeatherData
 import com.example.simpleweatherapplication.ui_data.*
 import com.example.simpleweatherapplication.utils.extensions.toCelsius
@@ -44,46 +44,46 @@ class WeatherDatasource {
                 WeatherDetailsViewData(
                     id = WeatherActionsItem.LABEL,
                     data = TitleSubtitleDataModel(
-                        SimpleWeatherApp.getString(R.string.date_time), weatherData.lastObservationTimeString
+                        App.getString(R.string.date_time), weatherData.lastObservationTimeString
                     )
                 )
             )
             add(
                 WeatherDetailsViewData(
                     id = WeatherActionsItem.LABEL,
-                    data = TitleSubtitleDataModel(SimpleWeatherApp.getString(R.string.sunset), weatherData.sunset)
+                    data = TitleSubtitleDataModel(App.getString(R.string.sunset), weatherData.sunset)
                 )
             )
             add(
                 WeatherDetailsViewData(
                     id = WeatherActionsItem.LABEL,
-                    data = TitleSubtitleDataModel(SimpleWeatherApp.getString(R.string.timezone), weatherData.timezone)
+                    data = TitleSubtitleDataModel(App.getString(R.string.timezone), weatherData.timezone)
                 )
             )
             add(
                 WeatherDetailsViewData(
                     id = WeatherActionsItem.LABEL,
-                    data = TitleSubtitleDataModel(SimpleWeatherApp.getString(R.string.countryCode), weatherData.countryCode)
+                    data = TitleSubtitleDataModel(App.getString(R.string.countryCode), weatherData.countryCode)
                 )
             )
             add(
                 WeatherDetailsViewData(
                     id = WeatherActionsItem.LABEL,
                     data = TitleSubtitleDataModel(
-                        SimpleWeatherApp.getString(R.string.longitude), weatherData.lon
+                        App.getString(R.string.longitude), weatherData.lon
                     )
                 )
             )
             add(
                 WeatherDetailsViewData(
                     id = WeatherActionsItem.LABEL,
-                    data = TitleSubtitleDataModel(SimpleWeatherApp.getString(R.string.latitude), weatherData.lat)
+                    data = TitleSubtitleDataModel(App.getString(R.string.latitude), weatherData.lat)
                 )
             )
             add(
                 ButtonViewData(
                     id = WeatherActionsItem.DONE_BUTTON,
-                    title = SimpleWeatherApp.getString(R.string.done)
+                    title = App.getString(R.string.done)
                 )
             )
         }
