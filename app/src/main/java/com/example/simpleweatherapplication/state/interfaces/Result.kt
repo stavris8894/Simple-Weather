@@ -1,3 +1,0 @@
-package com.example.simpleweatherapplication.state.interfaces
-
-interface Result

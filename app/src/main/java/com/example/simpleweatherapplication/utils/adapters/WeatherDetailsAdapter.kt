@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.simpleweatherapplication.ui_data.ButtonViewData
 import com.example.simpleweatherapplication.ui_data.HeaderWeatherDetailsViewData
 import com.example.simpleweatherapplication.ui_data.WeatherDetailsViewData
-import com.example.simpleweatherapplication.utils.interfaces.ViewHolderId
+import cy.com.core.interfaces.ViewHolderId
 import com.example.simpleweatherapplication.utils.viewholders.DetailsButtonViewHolder
 import com.example.simpleweatherapplication.utils.viewholders.DetailsViewHolder
 import com.example.simpleweatherapplication.utils.viewholders.HeaderDetailsViewHolder

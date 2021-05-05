@@ -1,8 +1,8 @@
 package com.example.simpleweatherapplication.utils.extensions
 
-import com.example.simpleweatherapplication.utils.interfaces.RecyclerViewItem
-import com.example.simpleweatherapplication.utils.interfaces.RecyclerViewUiItem
-import com.example.simpleweatherapplication.utils.interfaces.ViewHolderId
+import cy.com.core.interfaces.RecyclerViewItem
+import cy.com.core.interfaces.RecyclerViewUiItem
+import cy.com.core.interfaces.ViewHolderId
 
 
 fun RecyclerViewItem.hasId(id: ViewHolderId): Boolean {

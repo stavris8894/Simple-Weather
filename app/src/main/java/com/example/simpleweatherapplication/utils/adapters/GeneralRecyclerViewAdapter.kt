@@ -5,16 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.simpleweatherapplication.utils.RecyclerViewItemType
-import com.example.simpleweatherapplication.utils.interfaces.RecyclerItemData
-import com.example.simpleweatherapplication.utils.interfaces.RecyclerViewItem
+import com.example.simpleweatherapplication.utils.RecyclerViewItemTypes
+import cy.com.core.interfaces.RecyclerItemData
+import cy.com.core.interfaces.RecyclerViewItem
 
 abstract class GeneralRecyclerViewAdapter : ListAdapter<RecyclerViewItem, RecyclerView.ViewHolder>(TASKS_COMPARATOR) {
 
     open var listener: ((RecyclerViewItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return RecyclerViewItemType.byViewType(parent, viewType)
+        return RecyclerViewItemTypes.byViewType(parent, viewType)
     }
 
     override fun getItemViewType(position: Int): Int {

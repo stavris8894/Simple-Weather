@@ -1,9 +1,9 @@
 package com.example.simpleweatherapplication.weather.repositories
 
 import android.app.Application
-import com.example.simpleweatherapplication.models.WeatherData
-import com.example.simpleweatherapplication.room.WeatherDao
-import com.example.simpleweatherapplication.room.WeatherDatabase
+import cy.com.core.models.WeatherData
+import cy.com.core.room.WeatherDao
+import cy.com.core.room.WeatherDatabase
 import kotlinx.coroutines.flow.Flow
 
 class WeatherDatabaseRepository(application: Application) {

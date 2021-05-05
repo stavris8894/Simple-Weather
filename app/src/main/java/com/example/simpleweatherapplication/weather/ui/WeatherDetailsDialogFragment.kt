@@ -9,10 +9,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import com.example.simpleweatherapplication.R
 import com.example.simpleweatherapplication.databinding.WeatherDetailsFragmentBinding
-import com.example.simpleweatherapplication.state.actions.WeatherDetailsAction
-import com.example.simpleweatherapplication.state.viewstates.WeatherDetailsViewState
-import com.example.simpleweatherapplication.state.viewstates.WeatherViewState
-import com.example.simpleweatherapplication.utils.EventObserver
+import cy.com.core.state.actions.WeatherDetailsAction
+import cy.com.core.state.viewstates.WeatherDetailsViewState
 import com.example.simpleweatherapplication.utils.adapters.WeatherDetailsAdapter
 import com.example.simpleweatherapplication.utils.extensions.hasId
 import com.example.simpleweatherapplication.utils.fragment.viewBinding

@@ -1,6 +1,6 @@
 package com.example.simpleweatherapplication.weather.interactor
 
-import com.example.simpleweatherapplication.models.WeatherData
+import cy.com.core.models.WeatherData
 import com.example.simpleweatherapplication.weather.repositories.WeatherDatabaseRepository
 import com.example.simpleweatherapplication.weather.repositories.WeatherRemoteRepository
 import kotlinx.coroutines.coroutineScope

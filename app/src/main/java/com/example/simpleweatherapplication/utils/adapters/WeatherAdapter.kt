@@ -2,8 +2,8 @@ package com.example.simpleweatherapplication.utils.adapters
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.simpleweatherapplication.ui_data.WeatherCardViewData
-import com.example.simpleweatherapplication.utils.interfaces.RecyclerViewItem
-import com.example.simpleweatherapplication.utils.interfaces.ViewHolderId
+import cy.com.core.interfaces.RecyclerViewItem
+import cy.com.core.interfaces.ViewHolderId
 import com.example.simpleweatherapplication.utils.viewholders.CardViewHolder
 
 class WeatherAdapter : GeneralRecyclerViewAdapter() {

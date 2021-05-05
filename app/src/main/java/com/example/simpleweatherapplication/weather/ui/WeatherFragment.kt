@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.simpleweatherapplication.R
 import com.example.simpleweatherapplication.databinding.MainPageFragmentBinding
-import com.example.simpleweatherapplication.models.WeatherData
-import com.example.simpleweatherapplication.state.actions.WeatherAction
-import com.example.simpleweatherapplication.state.viewstates.WeatherViewState
+import cy.com.core.models.WeatherData
+import cy.com.core.state.actions.WeatherAction
+import cy.com.core.state.viewstates.WeatherViewState
 import com.example.simpleweatherapplication.utils.GooglePlaceFragment
 import com.example.simpleweatherapplication.utils.adapters.WeatherAdapter
 import com.example.simpleweatherapplication.utils.extensions.hasId

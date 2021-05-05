@@ -1,10 +1,10 @@
 package com.example.simpleweatherapplication.weather.viewmodels
 
 import androidx.lifecycle.LiveDataScope
-import com.example.simpleweatherapplication.state.BaseViewModel
-import com.example.simpleweatherapplication.state.actions.WeatherDetailsAction
-import com.example.simpleweatherapplication.state.results.WeatherDetailsResult
-import com.example.simpleweatherapplication.state.viewstates.WeatherDetailsViewState
+import cy.com.core.state.BaseViewModel
+import cy.com.core.state.actions.WeatherDetailsAction
+import cy.com.core.state.results.WeatherDetailsResult
+import cy.com.core.state.viewstates.WeatherDetailsViewState
 import com.example.simpleweatherapplication.weather.datasource.WeatherDatasource
 import com.example.simpleweatherapplication.weather.interactor.WeatherInteractor
 import kotlinx.coroutines.flow.collectLatest

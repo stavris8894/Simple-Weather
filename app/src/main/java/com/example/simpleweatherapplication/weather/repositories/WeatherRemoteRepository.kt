@@ -1,10 +1,7 @@
 package com.example.simpleweatherapplication.weather.repositories
 
-import com.example.simpleweatherapplication.models.ApiWeatherResponse
+import cy.com.core.models.ApiWeatherResponse
 import com.example.simpleweatherapplication.network.ApiWebServices
-import com.example.simpleweatherapplication.utils.models.ResultWrapper
-import com.example.simpleweatherapplication.utils.models.safeApiCall
-import kotlinx.coroutines.Dispatchers
 
 class WeatherRemoteRepository(private val apiWebServices: ApiWebServices) {
 

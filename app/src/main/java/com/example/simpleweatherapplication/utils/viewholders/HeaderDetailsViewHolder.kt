@@ -3,7 +3,7 @@ package com.example.simpleweatherapplication.utils.viewholders
 import com.example.simpleweatherapplication.databinding.RecycleDetailsHeaderBinding
 import com.example.simpleweatherapplication.ui_data.HeaderWeatherDetailsViewData
 import com.example.simpleweatherapplication.utils.BindingViewHolder
-import com.example.simpleweatherapplication.utils.interfaces.ViewHolderId
+import cy.com.core.interfaces.ViewHolderId
 
 class HeaderDetailsViewHolder(binding: RecycleDetailsHeaderBinding) : BindingViewHolder<RecycleDetailsHeaderBinding>(binding) {
 

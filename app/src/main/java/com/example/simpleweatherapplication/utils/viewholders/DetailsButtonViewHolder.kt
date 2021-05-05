@@ -3,8 +3,8 @@ package com.example.simpleweatherapplication.utils.viewholders
 import com.example.simpleweatherapplication.databinding.RecycleDetailsButtonBinding
 import com.example.simpleweatherapplication.ui_data.ButtonViewData
 import com.example.simpleweatherapplication.utils.BindingViewHolder
-import com.example.simpleweatherapplication.utils.interfaces.RecyclerViewItem
-import com.example.simpleweatherapplication.utils.interfaces.ViewHolderId
+import cy.com.core.interfaces.RecyclerViewItem
+import cy.com.core.interfaces.ViewHolderId
 
 class DetailsButtonViewHolder(binding: RecycleDetailsButtonBinding) : BindingViewHolder<RecycleDetailsButtonBinding>(binding) {
     var listener: ((RecyclerViewItem) -> Unit)? = null

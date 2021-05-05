@@ -2,11 +2,11 @@ package com.example.simpleweatherapplication.weather.datasource
 
 import com.example.simpleweatherapplication.R
 import com.example.simpleweatherapplication.application.App
-import com.example.simpleweatherapplication.models.WeatherData
+import cy.com.core.models.WeatherData
 import com.example.simpleweatherapplication.ui_data.*
 import com.example.simpleweatherapplication.utils.extensions.toCelsius
-import com.example.simpleweatherapplication.utils.interfaces.RecyclerViewItem
-import com.example.simpleweatherapplication.utils.interfaces.ViewHolderId
+import cy.com.core.interfaces.RecyclerViewItem
+import cy.com.core.interfaces.ViewHolderId
 
 enum class WeatherActionsItem : ViewHolderId {
     DONE_BUTTON,

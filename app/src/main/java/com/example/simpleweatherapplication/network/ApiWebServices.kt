@@ -1,6 +1,6 @@
 package com.example.simpleweatherapplication.network
 
-import com.example.simpleweatherapplication.models.ApiWeatherResponse
+import cy.com.core.models.ApiWeatherResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

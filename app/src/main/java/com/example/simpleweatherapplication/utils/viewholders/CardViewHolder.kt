@@ -6,8 +6,8 @@ import com.example.simpleweatherapplication.ui_data.WeatherCardViewData
 import com.example.simpleweatherapplication.utils.BindingViewHolder
 import com.example.simpleweatherapplication.utils.extensions.toCelsius
 import com.example.simpleweatherapplication.utils.extensions.toImgUrl
-import com.example.simpleweatherapplication.utils.interfaces.RecyclerViewItem
-import com.example.simpleweatherapplication.utils.interfaces.ViewHolderId
+import cy.com.core.interfaces.RecyclerViewItem
+import cy.com.core.interfaces.ViewHolderId
 import com.squareup.picasso.Picasso
 
 class CardViewHolder(binding: RecycleViewCardsBinding) : BindingViewHolder<RecycleViewCardsBinding>(binding) {
