@@ -7,8 +7,5 @@ class WeatherRemoteRepository(private val apiWebServices: ApiWebServices) {
 
     suspend fun getWeatherData(address: String, country: String?): ApiWeatherResponse {
         return apiWebServices.getForecast(city = address, country = country)
-//        return safeApiCall(Dispatchers.IO) {
-//            apiWebServices.getForecast(city = address, country = country)
-//        }
     }
 }

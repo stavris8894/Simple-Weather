@@ -4,7 +4,7 @@ build_versions.target_sdk = 30
 ext.build_versions = build_versions
 
 def versions = [:]
-versions.koin = '2.2.2'
+versions.koin = '3.0.1'
 versions.kotlin = '1.5.0'
 versions.navigation = '2.3.5'
 versions.room = '2.3.0'
@@ -16,6 +16,6 @@ ext.versions = versions
 
 static def addRepos(RepositoryHandler handler){
     handler.google()
-    handler.jcenter()
+    handler.mavenCentral()
 }
 ext.addRepos = this.&addRepos
