@@ -4,11 +4,11 @@ build_versions.target_sdk = 30
 ext.build_versions = build_versions
 
 def versions = [:]
-versions.koin = '3.0.1'
-versions.kotlin = '1.5.0'
+versions.koin = '3.0.2'
+versions.kotlin = '1.5.10'
 versions.navigation = '2.3.5'
 versions.room = '2.3.0'
-versions.coroutines = '1.5.0-RC'
+versions.coroutines = '1.5.0'
 versions.lifecycle = '2.3.1'
 versions.retrofit = '2.9.0'
 versions.okhttp3 = '4.9.1'
